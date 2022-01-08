@@ -1,0 +1,24 @@
+{
+  "name": "estantemontessori",
+  "version": "1.0.0",
+  "description": "Breve projeto desenvolvido como requisito de conclusão do curso de desenvolvimento web fullstack PUC Minas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redcrowdev/estanteMontessori.git"
+  },
+  "author": "Erik Wroblewski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/redcrowdev/estanteMontessori/issues"
+  },
+  "homepage": "https://github.com/redcrowdev/estanteMontessori#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.5"
+  }
+}
