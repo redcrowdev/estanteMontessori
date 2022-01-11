@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Activity = require('../models/activity.js');
 
 //DB Connection
-mongoose.connect('mongodb://localhost:27017/estanteMontessori', {
+//mongoose.connect('mongodb://localhost:27017/estanteMontessori', {
+mongoose.connect('mongodb://192.168.15.2:27017/estanteMontessori', {
    useNewUrlParser: true,
    useUnifiedTopology: true
 });
@@ -23,7 +24,7 @@ const activitySeeds = [
       category: '',
       theme: 'Vocabulário',
       description: 'Apresentação de figuras com a articulação do nome daquilo que representam e posterior questionamento à criança se ela lembra o nome do objeto/figura representado no cartão.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Manipulação de Objetos',
@@ -32,7 +33,7 @@ const activitySeeds = [
       category: '',
       theme: '',
       description: 'Apresentação de objetos à criança, permitindo a manipulação e observação de suas características.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Clean Up',
@@ -41,7 +42,7 @@ const activitySeeds = [
       category: '',
       theme: '',
       description: 'Estimular a criança a guardar os brinquedos e utensílios após sua utilização, atentando para os lugares corretos de guarda.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Ensinamento Prático',
@@ -50,7 +51,7 @@ const activitySeeds = [
       category: '',
       theme: 'Vida Prática',
       description: 'Convidar a criança para desenvolver uma atividade cotidiana, como lavar a louça, explicando a situação, o que deve ser feito e observando o desenvolvimento desta atividade por ela.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Jogo dos Cheiros',
@@ -59,7 +60,7 @@ const activitySeeds = [
       category: '',
       theme: 'Acuidade Sensorial - Olfato',
       description: 'Apresentar à criança diversas fontes de aromas (ervas, temperos, etc), separadamente, convidando-a a sentir o cheiro, falando o nome de cada coisa e perguntando o que ela achou de cada um.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Pareamento de Cores, Figuras e Formas',
@@ -68,7 +69,7 @@ const activitySeeds = [
       category: '',
       theme: 'Acuidade Sensorial - Visão',
       description: 'Apresentar cartões com figuras ou objetos duplicados ou de cores iguais para que a criança identifique as relações de igualdade e agrupe-os de acordo com essa percepção.',
-      owned: true
+      owned: 'Sim'
    },
    {
       title: 'Letras de Lixa',
@@ -77,7 +78,7 @@ const activitySeeds = [
       category: '',
       theme: 'Desenvolvimento da Escrita',
       description: 'Conjunto de cartões com as letras do alfabeto desenhadas em forma cursiva com lixa fina, possibilitando que a criança trace os signos com os dedos ao tempo que "sente" como ele é escrito.',
-      owned: true,
+      owned: 'Sim'
    }
    // {
    //    title:,

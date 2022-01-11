@@ -10,6 +10,14 @@
 
 <body>
    <h1>Índice de Atividades</h1>
+
+   <% for(let activity of activities) { %>
+      <li>
+         <a href="/atividades/<%= activity._id %> ">
+            <%= activity.title%>
+         </a>
+      </li>
+      <%}%>
 </body>
 
 </html>

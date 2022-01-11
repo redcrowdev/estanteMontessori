@@ -31,9 +31,8 @@ const ActivitySchema = new mongoose.Schema({
       required: true
    },
    owned: {
-      type: Boolean,
-      required: true,
-      default: false
+      type: String,
+      default: 'Não'
    },
    picture: {
       type: String,
