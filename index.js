@@ -51,13 +51,27 @@ app.get('/atividades/:id', async (req, res) => {
 });
 
 app.get('/atividades/:id/editar', async (req, res) => {
-   const activity = await Activity.findById(req.params.id)
+   const activity = await Activity.findByIdAndUpdate(req.params.id)
    res.render('atividades/editar', { activity });
 });
 
 app.put('/atividades/:id', async (req, res) => {
-   res.send('It Worked')
+   const { id } = req.params;
+   const activity = await Activity.findByIdAndUpdate(id, { ...req.body.activity });
+   res.redirect(`/atividades/${activity._id}`)
 })
+
+app.delete('/atividades/:id', async (req, res) => {
+   const { id } = req.params;
+   await Activity.findByIdAndDelete(id);
+   res.redirect('/atividades');
+})
+
+// Page not found handler
+app.use((req, res) => {
+   res.status(404).send('Não Encontrado!')
+})
+
 //App service
 app.listen(3000, () => {
    console.log('Serving on port 3000')
