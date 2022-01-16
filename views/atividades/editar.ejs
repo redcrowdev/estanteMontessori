@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Editar Atividade</title>
-</head>
-
-<body>
+<% 'layouts/boilerplate' %>
    <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST">
       <div>
          <label for="title">Título</label>
@@ -43,6 +33,3 @@
    </form>
 
    <a href="/atividades/<%=activity._id%>">Voltar à Atividade</a>
-</body>
-
-</html>
