@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Editar Atividade</title>
+</head>
+
+<body>
+   <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST">
+      <div>
+         <label for="title">Título</label>
+         <input type="text" id="title" name="activity[title]" value="<%= activity.title %>">
+      </div>
+      <div>
+         <label for="ages">Idade</label>
+         <input type="text" id="ages" name="activity[ages]" value="<%= activity.ages %>">
+      </div>
+      <div>
+         <label for="sensiblePeriod">Período Sensível</label>
+         <input type="text" id="sensiblePeriod" name="activity[sensiblePeriod]" value="<%= activity.sensiblePeriod %>">
+      </div>
+      <div>
+         <label for="category">Categoria</label>
+         <input type="text" id="category" name="activity[category]" value="<%= activity.category %>">
+      </div>
+      <div>
+         <label for="theme">Tema</label>
+         <input type="text" id="theme" name="activity[theme]" value="<%= activity.theme %>">
+      </div>
+      <div>
+         <label for="description">Descrição</label>
+         <input type="text" id="description" name="activity[description]" value="<%= activity.description %>">
+      </div>
+      <div>
+         <label for="owned">Possui?</label>
+         <input type="text" id="owned" name="activity[owned]" value="<%= activity.owned %>">
+      </div>
+      <button>Editar</button>
+
+   </form>
+
+   <a href="/atividades/<%=activity._id%>">Voltar à Atividade</a>
+</body>
+
+</html>

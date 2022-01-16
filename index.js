@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Activity = require('./models/activity.js');
 
 //DB connection
@@ -22,14 +23,11 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 //App routes (provisory)
 app.get('/', (req, res) => {
    res.render('home')
-})
-
-app.get('/atividades/nova-atividade', (req, res) => {
-   res.render('atividades/nova-atividade')
 })
 
 app.get('/atividades', async (req, res) => {
@@ -37,14 +35,29 @@ app.get('/atividades', async (req, res) => {
    res.render('atividades/index', { activities })
 })
 
+app.get('/atividades/nova-atividade', (req, res) => {
+   res.render('atividades/nova-atividade')
+})
 
+app.post('/atividades', async (req, res) => {
+   const activity = new Activity(req.body.activity);
+   await activity.save();
+   res.redirect(`/atividades/${activity._id}`)
+})
 
 app.get('/atividades/:id', async (req, res) => {
    const activity = await Activity.findById(req.params.id)
    res.render('atividades/detalhes', { activity });
 });
 
+app.get('/atividades/:id/editar', async (req, res) => {
+   const activity = await Activity.findById(req.params.id)
+   res.render('atividades/editar', { activity });
+});
 
+app.put('/atividades/:id', async (req, res) => {
+   res.send('It Worked')
+})
 //App service
 app.listen(3000, () => {
    console.log('Serving on port 3000')
