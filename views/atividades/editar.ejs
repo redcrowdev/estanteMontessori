@@ -1,4 +1,4 @@
-<% 'layouts/boilerplate' %>
+<%- include('../partials/head') %>
    <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST">
       <div>
          <label for="title">Título</label>
@@ -33,3 +33,4 @@
    </form>
 
    <a href="/atividades/<%=activity._id%>">Voltar à Atividade</a>
+   <%- include('../partials/footer') %>

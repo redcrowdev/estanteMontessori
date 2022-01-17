@@ -1,4 +1,4 @@
-<% 'layouts/boilerplate' %>
+<%- include('../partials/head') %>
    <h1>Índice de Atividades</h1>
 
    <% for(let activity of activities) { %>
@@ -8,3 +8,4 @@
          </a>
       </li>
       <%}%>
+         <%- include('../partials/footer') %>
