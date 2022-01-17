@@ -21,6 +21,9 @@ db.once('open', () => {
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+// app.use(express.static('public'))
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))

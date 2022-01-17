@@ -1,11 +1,21 @@
 <%- include('../partials/head') %>
+
    <h1>Índice de Atividades</h1>
 
-   <% for(let activity of activities) { %>
-      <li>
-         <a href="/atividades/<%= activity._id %> ">
-            <%= activity.title%>
-         </a>
-      </li>
-      <%}%>
-         <%- include('../partials/footer') %>
+   <div class="row">
+      <% for(let activity of activities) { %>
+         <div class="card col-md-4 mx-1 my-1" style="width: 18rem;">
+            <img src="/public/img/<%=activity.picture%>" class="card-img-top" alt="">
+            <div class="card-body">
+               <h5 class="card-title">
+                  <%=activity.title%>
+               </h5>
+               <p class="card-text">
+                  <%=activity.sensiblePeriod%>
+               </p>
+               <a href="/atividades/<%=activity._id%>" class="btn btn-primary">Detalhes</a>
+            </div>
+         </div>
+         <%}%>
+   </div>
+   <%- include('../partials/foot') %>

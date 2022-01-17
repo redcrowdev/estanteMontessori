@@ -1,16 +1,39 @@
 <%- include('../partials/head') %>
-   <h1>
-      <%=activity.title%>
-   </h1>
-   <p>
-      <a href="/atividades/<%=activity._id%>/editar">Editar</a>
-   </p>
-   <form action="/atividades/<%=activity._id%>/?_method=DELETE" method="POST">
-      <button>Excluir</button>
-   </form>
 
-   <footer>
-      <a href="/atividades">Todas as Atividades</a>
-   </footer>
-
-   <%- include('../partials/footer') %>
+   <div class="row mb-3">
+      <div class="col-6 offset-3">
+         <div class="card">
+            <img src="/public/img/<%=activity.picture%>" alt="" class="card-img-top">
+            <div class="card-body">
+               <h3 class="card-title">
+                  <%=activity.title%>
+               </h3>
+               <p class="card-text">
+                  <%=activity.description%>
+               </p>
+            </div>
+            <ul class="list-group list-group-flush">
+               <li class="list-group-item"><b>Idades: </b>
+                  <%=activity.ages%>
+               </li>
+               <li class="list-group-item"><b>Período Sensível: </b>
+                  <%=activity.sensiblePeriod%>
+               </li>
+               <li class="list-group-item"><b>Categoria: </b>
+                  <%=activity.category%>
+               </li>
+               <li class="list-group-item"><b>Tema: </b>
+                  <%=activity.theme%>
+               </li>
+            </ul>
+            <div class="card-body">
+               <a href="/atividades/<%=activity._id%>/editar" class="btn btn-info">Editar Atividade</a>
+               <form class="d-inline" action="/atividades/<%=activity._id%>/?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">Excluir Atividade</button>
+               </form>
+            </div>
+         </div>
+         <p><a class="card-link" href="/atividades">Voltar à todas as atividades</a></p>
+      </div>
+   </div>
+   <%- include('../partials/foot') %>
