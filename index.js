@@ -35,48 +35,74 @@ app.get('/', (req, res) => {
    res.render('home')
 })
 
-app.get('/atividades', async (req, res) => {
-   const activities = await Activity.find({});
-   res.render('atividades/index', { activities })
+app.get('/atividades', async (req, res, next) => {
+   try {
+      const activities = await Activity.find({});
+      if (!activities) {
+         throw new appError('Erro Interno de Servidor', 502);
+      }
+      res.render('atividades/index', { activities })
+   } catch (err) {
+      next(err)
+   }
 })
 
 app.get('/atividades/nova-atividade', (req, res) => {
    res.render('atividades/nova-atividade')
 })
 
-app.post('/atividades', async (req, res) => {
-   const activity = new Activity(req.body.activity);
-   await activity.save();
-   res.redirect(`/atividades/${activity._id}`)
+app.post('/atividades', async (req, res, next) => {
+   try {
+      const activity = new Activity(req.body.activity);
+      await activity.save();
+      res.redirect(`/atividades/${activity._id}`)
+   } catch (err) {
+      next(err)
+   }
 })
 
 app.get('/atividades/:id', async (req, res, next) => {
-   const activity = await Activity.findById(req.params.id)
-   if (!activity) {
-      res.status(404).render('404');
-      //next(new appError('Atividade não Encontrada', 404));
+   try {
+      const activity = await Activity.findById(req.params.id)
+      if (!activity) {
+         throw new appError('Recurso Não Encontrado', 404);
+      }
+      res.render('atividades/detalhes', { activity });
+   } catch (err) {
+      next(err)
    }
-   res.render('atividades/detalhes', { activity });
 });
 
-app.get('/atividades/:id/editar', async (req, res) => {
-   const activity = await Activity.findByIdAndUpdate(req.params.id)
-   res.render('atividades/editar', { activity });
+app.get('/atividades/:id/editar', async (req, res, next) => {
+   try {
+      const activity = await Activity.findByIdAndUpdate(req.params.id)
+      if (!activity) {
+         throw new appError('Recurso Não Encontrado', 404);
+      }
+      res.render('atividades/editar', { activity });
+   } catch (err) {
+      next(err)
+   }
 });
 
-app.put('/atividades/:id', async (req, res) => {
-   const { id } = req.params;
-   const activity = await Activity.findByIdAndUpdate(id, { ...req.body.activity });
-   if (!activity) {
-      res.status(404).render('404');
+app.put('/atividades/:id', async (req, res, next) => {
+   try {
+      const { id } = req.params;
+      const activity = await Activity.findByIdAndUpdate(id, { ...req.body.activity });
+      res.redirect(`/atividades/${activity._id}`)
+   } catch (err) {
+      next(err)
    }
-   res.redirect(`/atividades/${activity._id}`)
 })
 
-app.delete('/atividades/:id', async (req, res) => {
-   const { id } = req.params;
-   await Activity.findByIdAndDelete(id);
-   res.redirect('/atividades');
+app.delete('/atividades/:id', async (req, res, next) => {
+   try {
+      const { id } = req.params;
+      await Activity.findByIdAndDelete(id);
+      res.redirect('/atividades');
+   } catch (err) {
+      next(err)
+   }
 })
 
 // Page not found handler
@@ -87,7 +113,7 @@ app.use((req, res) => {
 //Very basic error handling
 app.use((err, req, res, next) => {
    const { status = 500 } = err;
-   if (status = 404) {
+   if (status == 404) {
       res.status(status).render('404')
    } else {
       res.status(status).render('500')
