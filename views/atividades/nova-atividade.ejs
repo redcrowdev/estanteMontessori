@@ -3,18 +3,18 @@
    <div class="col-6 offset-3">
       <h1 class="text-center">Cadastrar Nova Atividade</h1>
 
-      <form action="/atividades" method="POST">
+      <form action="/atividades" method="POST" novalidate class="validate">
          <div class="mb-2">
             <label class="form-label" for="title">Título</label>
-            <input class="form-control" type="text" id="title" name="activity[title]">
+            <input class="form-control" type="text" id="title" name="activity[title]" required>
          </div>
          <div class="mb-2">
             <label class="form-label" for="ages">Idade</label>
-            <input class="form-control" type="text" id="ages" name="activity[ages]">
+            <input class="form-control" type="text" id="ages" name="activity[ages]" required>
          </div>
          <div class="mb-2">
             <label class="form-label" for="sensiblePeriod">Período Sensível</label>
-            <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]">
+            <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]" required>
                <option value="" selected disabled hidden>Selecione uma Opção</option>
                <option value="Movimento">Movimento</option>
                <option value="Linguagem">Linguagem</option>
@@ -39,11 +39,12 @@
          </div>
          <div class="mb-2">
             <label class="form-label" for="description">Descrição</label>
-            <textarea class="form-control" type="text" id="description" name="activity[description]"></textarea>
+            <textarea class="form-control" type="text" id="description" name="activity[description]"
+               required></textarea>
          </div>
          <div class="mb-2">
             <label class="form-label" for="owned">Possui?</label>
-            <select class="form-select id=" owned" name="activity[owned]">
+            <select class="form-select id=" owned" name="activity[owned]" required>
                <option value="" selected disabled hidden>Selecione uma Opção</option>
                <option value="Não">Não</option>
                <option value="Sim">Sim</option>
@@ -51,7 +52,7 @@
          </div>
          <div class="mb-2">
             <label class="form-label" for="picture">Imagem</label>
-            <input class="form-control" type="text" id="picture" name="activity[picture]">
+            <input class="form-control" type="text" id="picture" name="activity[picture]" required>
          </div>
          <button class="btn btn-primary mt-2
          ">Cadastrar</button>
@@ -59,3 +60,26 @@
    </div>
 
    <%- include('../partials/foot') %>
+
+      <script>
+         // Bootstrap 5 Example starter JavaScript for disabling form submissions if there are invalid fields
+         (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.validate')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+               .forEach(function (form) {
+                  form.addEventListener('submit', function (event) {
+                     if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                     }
+
+                     form.classList.add('was-validated')
+                  }, false)
+               })
+         })()
+      </script>

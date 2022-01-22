@@ -2,18 +2,20 @@
    <div class="col-6 offset-3">
       <h1 class="text-center">Editar Atividade</h1>
 
-      <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST">
+      <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST" novalidate class="validate">
          <div class="mb-2">
             <label class="form-label" for="title">Título</label>
-            <input class="form-control" value="<%= activity.title %>" type="text" id="title" name="activity[title]">
+            <input class="form-control" value="<%= activity.title %>" type="text" id="title" name="activity[title]"
+               required>
          </div>
          <div class="mb-2">
             <label class="form-label" for="ages">Idade</label>
-            <input class="form-control" value="<%= activity.ages %>" type="text" id="ages" name="activity[ages]">
+            <input class="form-control" value="<%= activity.ages %>" type="text" id="ages" name="activity[ages]"
+               required>
          </div>
          <div class="mb-2">
             <label class="form-label" for="sensiblePeriod">Período Sensível</label>
-            <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]">
+            <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]" required>
                <option value="<%= activity.sensiblePeriod %>" selected hidden>
                   <%= activity.sensiblePeriod %>
                </option>
@@ -41,13 +43,13 @@
          </div>
          <div class="mb-2">
             <label class="form-label" for="description">Descrição</label>
-            <textarea class="form-control" id="description" name="activity[description]">
+            <textarea class="form-control" id="description" name="activity[description]" required>
                <%= activity.description.trim() %>
             </textarea>
          </div>
          <div class="mb-2">
             <label class="form-label" for="owned">Possui?</label>
-            <select class="form-select id=" owned" name="activity[owned]">
+            <select class="form-select id=" owned" name="activity[owned]" required>
                <option value="<%= activity.owned %>" selected hidden>
                   <%= activity.owned %>
                </option>
@@ -58,7 +60,7 @@
          <div class="mb-2">
             <label class="form-label" for="picture">Imagem</label>
             <input class="form-control" value="<%= activity.picture %>" type="text" id="picture"
-               name="activity[picture]">
+               name="activity[picture]" required>
          </div>
          <button class="btn btn-primary mt-2
             ">Editar</button>
@@ -67,44 +69,27 @@
    </div>
 
 
-
-
-
-
-
-
-   <!-- <form action="/atividades/<%= activity._id %>?_method=PUT" method="POST">
-      <div>
-         <label for="title">Título</label>
-         <input type="text" id="title" name="activity[title]" value="<%= activity.title %>">
-      </div>
-      <div>
-         <label for="ages">Idade</label>
-         <input type="text" id="ages" name="activity[ages]" value="<%= activity.ages %>">
-      </div>
-      <div>
-         <label for="sensiblePeriod">Período Sensível</label>
-         <input type="text" id="sensiblePeriod" name="activity[sensiblePeriod]" value="<%= activity.sensiblePeriod %>">
-      </div>
-      <div>
-         <label for="category">Categoria</label>
-         <input type="text" id="category" name="activity[category]" value="<%= activity.category %>">
-      </div>
-      <div>
-         <label for="theme">Tema</label>
-         <input type="text" id="theme" name="activity[theme]" value="<%= activity.theme %>">
-      </div>
-      <div>
-         <label for="description">Descrição</label>
-         <input type="text" id="description" name="activity[description]" value="<%= activity.description %>">
-      </div>
-      <div>
-         <label for="owned">Possui?</label>
-         <input type="text" id="owned" name="activity[owned]" value="<%= activity.owned %>">
-      </div>
-      <button>Editar</button>
-
-   </form> -->
-
-
    <%- include('../partials/foot') %>
+
+      <script>
+         // Bootstrap 5 Example starter JavaScript for disabling form submissions if there are invalid fields
+         (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.validate')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+               .forEach(function (form) {
+                  form.addEventListener('submit', function (event) {
+                     if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                     }
+
+                     form.classList.add('was-validated')
+                  }, false)
+               })
+         })()
+      </script>
