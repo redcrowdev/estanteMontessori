@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 //Local variables
-const sensiblePeriods = ['Movimento', 'Linguagem', 'Detalhes', 'Ordem', 'Desenvolvimento dos Sentidos', 'Refinamento dos Sentidos', 'Graça e Cortesia', 'Música e Ritmo', , 'Escrita', 'Leitura', 'Matemática']
+const sensiblePeriods = ['Movimento', 'Linguagem', 'Detalhes', 'Ordem', 'Desenvolvimento dos Sentidos', 'Refinamento dos Sentidos', 'Graça e Cortesia', 'Música e Ritmo', 'Escrita', 'Leitura', 'Matemática']
 
 //Activity Schema
 const ActivitySchema = new mongoose.Schema({
@@ -33,6 +33,7 @@ const ActivitySchema = new mongoose.Schema({
    },
    owned: {
       type: String,
+      required: true,
       default: 'Não'
    },
    picture: {
