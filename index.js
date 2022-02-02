@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const { joiActivitySchema } = require('./validationSchemas.js')
 const wrapAsync = require('./utils/wrapAsync');
-const AppError = require('./utils/AppError');
+const AppError = require('./utils/errorHandling');
 const Activity = require('./models/activity.js');
 
 
