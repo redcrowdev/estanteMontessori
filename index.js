@@ -10,7 +10,10 @@ const Activity = require('./models/activity.js');
 
 
 //DB connection
-mongoose.connect('mongodb://192.168.15.2:27017/estanteMontessori', {
+const dbConnection = 'mongodb+srv://redcrowdev:p6M9UhYvr3ERHijV@cluster0.rmpqi.mongodb.net/estanteMontessori?retryWrites=true&w=majority'
+//const dbConnection = 'mongodb://192.168.15.2:27017/estanteMontessori'
+
+mongoose.connect(dbConnection, {
    useNewUrlParser: true,
    useUnifiedTopology: true
 });
