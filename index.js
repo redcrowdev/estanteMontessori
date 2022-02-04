@@ -112,8 +112,7 @@ app.use((err, req, res, next) => {
 })
 
 //App service
-//const appPort = 3000
-const appPort = 80
-app.listen(appPort, () => {
-   console.log('Serving on port 3000')
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+   console.log(`Serving on port ${PORT}`)
 })
