@@ -1,0 +1,68 @@
+<%- include('../partials/head') %>
+   <div class="col-6 offset-3">
+      <h1 class="text-center">Editar Sessão de Estudo
+      </h1>
+      <div class="card-body">
+         <form action="/criancas/<%= child._id %>/sessoes/<%= session._id %>?_method=PUT" method="POST">
+            <div class="row mb-3">
+               <div class="form-outline mb-3">
+                  <div>
+                     <label class="form-label" for="title">Título</label>
+                  </div>
+                  <div>
+                     <input class="form-control" type="text" name="session[title]" id="title" size="26"
+                        value="<%= session.title %>">
+                  </div>
+               </div>
+               <div class="form-outline">
+                  <div>
+                     <label class="form-label" for="date">Data</label>
+                  </div>
+                  <div>
+                     <input class="form-control" type="date" name="session[date]" id="date">
+                  </div>
+               </div>
+            </div>
+
+            <div class="row mb-3">
+               <div class="form-outline mb-3">
+                  <label for="focusArea" class="form-label">Área de Foco</label>
+                  <select class="form-select" id="focusArea" name="session[focusArea]">
+                     <option value="" selected disabled hidden>Selecione uma Opção</option>
+                     <option value="Focalização da Atenção">Focalização da Atenção</option>
+                     <option value="Limitação de Movimentos">Limitação de Movimentos</option>
+                     <option value="Uso das Mãos">Uso das Mãos</option>
+                     <option value="Repetição">Repetição</option>
+                     <option value="Precisão">Precisão</option>
+                     <option value="Prazer no Trabalho Escolhido">Prazer no Trabalho Escolhido</option>
+                  </select>
+               </div>
+
+               <div class="form-outline mb-3">
+                  <label for="sessionType" class="form-label">Área de Foco</label>
+                  <select class="form-select" id="sessionType" name="session[sessionType]">
+                     <option value="" selected disabled hidden>Selecione uma Opção</option>
+                     <option value="Atividade">Atividade</option>
+                     <option value="Interação Social">Interação Social</option>
+                     <option value="Livre Brincar">Livre Brincar</option>
+                     <option value="Emocional">Emocional</option>
+                     <option value="Motricidade Fina">Motricidade Fina</option>
+                     <option value="Motricidade Grossa">Motricidade Grossa</option>
+                  </select>
+               </div>
+            </div>
+            <div class="mb-3">
+               <div><label class="form-label" for="body">Observações</label></div>
+               <div>
+                  <% sessionBody=session.body.replace(' ', '').trim() %>
+                     <textarea class="form-control" name="session[body]" id="body" cols="42" rows="10">
+                        <%= sessionBody %>
+                     </textarea>
+                  </div>
+               </div>
+               <button class="btn btn-success">Editar Sessão</button>
+            </form>
+         </div>
+   </div>
+
+   <%- include(`../partials/foot.ejs`) %>

@@ -1,0 +1,143 @@
+<%- include('../partials/head') %>
+
+   <div class="row mb-3">
+      <div class="col-md-6">
+         <div class="card mb-3">
+            <img src="/public/img/<%=child.picture%>" alt="" class="card-img-top">
+            <div class="card-body">
+               <h3 class="card-title">
+                  <%=`${child.firstName} ${child.lastName}`%>
+               </h3>
+            </div>
+            <ul class="list-group list-group-flush">
+               <li class="list-group-item"><b>Idade: </b>
+                  <% const getAge=Math.floor((new Date() - new Date(child.birth).getTime()) / 3.15576e+10) %>
+                     <%=`${getAge} anos`%>
+               </li>
+               <li class="list-group-item"><b>Gênero:</b>
+                  <%=child.gender%>
+               </li>
+            </ul>
+         </div>
+         <div class="card mb-3">
+            <div class="card-body">
+               <h4 class="card-text mb-3">Área de Risco</h4>
+               <a href="/criancas/<%=child._id%>/editar" class="btn btn-info">Editar Criança</a>
+               <form class="d-inline" action="/criancas/<%=child._id%>/?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">Excluir Criança</button>
+               </form>
+            </div>
+         </div>
+
+         <p><a class="card-link" href="/criancas">Voltar à todas as Crianças</a></p>
+      </div>
+      <div class="col-md-6">
+         <div class="card mb-3">
+            <div class="card-body">
+               <h4 class="card-title">Incluir Sessão de Estudo
+               </h4>
+               <form action="/criancas/<%=child._id%>/sessions" method="POST">
+                  <div class="row mb-3">
+                     <div class="form-outline mb-3">
+                        <div>
+                           <label class="form-label" for="title">Título</label>
+                        </div>
+                        <div>
+                           <input class="form-control" type="text" name="session[title]" id="title" size="26">
+                        </div>
+                     </div>
+                     <div class="form-outline">
+                        <div>
+                           <label class="form-label" for="date">Data</label>
+                        </div>
+                        <div>
+                           <input class="form-control" type="date" name="session[date]" id="date">
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="row mb-3">
+
+                     <div class="form-outline mb-3">
+                        <label for="focusArea" class="form-label">Área de Foco</label>
+                        <select class="form-select" id="focusArea" name="session[focusArea]">
+                           <option value="" selected disabled hidden>Selecione uma Opção</option>
+                           <option value="Focalização da Atenção">Focalização da Atenção</option>
+                           <option value="Limitação de Movimentos">Limitação de Movimentos</option>
+                           <option value="Uso das Mãos">Uso das Mãos</option>
+                           <option value="Repetição">Repetição</option>
+                           <option value="Precisão">Precisão</option>
+                           <option value="Prazer no Trabalho Escolhido">Prazer no Trabalho Escolhido</option>
+                        </select>
+                     </div>
+
+                     <div class="form-outline mb-3">
+                        <label for="sessionType" class="form-label">Área de Foco</label>
+                        <select class="form-select" id="sessionType" name="session[sessionType]">
+                           <option value="" selected disabled hidden>Selecione uma Opção</option>
+                           <option value="Atividade">Atividade</option>
+                           <option value="Interação Social">Interação Social</option>
+                           <option value="Livre Brincar">Livre Brincar</option>
+                           <option value="Emocional">Emocional</option>
+                           <option value="Motricidade Fina">Motricidade Fina</option>
+                           <option value="Motricidade Grossa">Motricidade Grossa</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="mb-3">
+                     <div><label class="form-label" for="body">Observações</label></div>
+                     <div><textarea class="form-control" name="session[body]" id="body" cols="42" rows="10"></textarea>
+                     </div>
+                  </div>
+                  <button class="btn btn-success">Incluir Sessão</button>
+               </form>
+            </div>
+         </div>
+         <% const sessions=child.sessions %>
+            <% for(let session of sessions) { %>
+               <div class="card mb-3">
+                  <div class="card-body">
+                     <h5 class="card-title">
+                        <%= session.title %>
+                     </h5>
+                     <p class="text-secondary">
+                        <% const dbDate=session.date.toISOString()%>
+                           <% const day=dbDate.substring(8,10) %>
+                              <% const month=dbDate.substring(5,7) %>
+                                 <% const year=dbDate.substring(0,4) %>
+                                    <% const lastUpdated=`${day}/${month}/${year}` %>
+                                       Data: <%= lastUpdated %>
+                     </p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                     <li class="list-group-item">
+                        <b>Tipo de Sessão:</b>
+                        <%= session.sessionType %>
+                     </li>
+                     <li class="list-group-item">
+                        <b>Área de Concentração:</b>
+                        <%= session.focusArea %>
+                     </li>
+                     <li class="list-group-item">
+                        <p class="card-text">
+                           <b>Descrição:</b>
+                        </p>
+                        <p class="card-text">
+                           <%= session.body %>
+                        </p>
+                     </li>
+                     <li class="list-group-item">
+                        <a href="/criancas/<%= child._id %>/sessoes/<%=session._id%>" class="btn btn-sm btn-info">Editar
+                           Sessão</a>
+
+                        <form class="d-inline"
+                           action="/criancas/<%= child._id %>/sessoes/<%=session._id%>?_method=DELETE " method="post">
+                           <button class="btn btn-sm btn-danger">Excluir Sessão</button>
+                        </form>
+                     </li>
+                  </ul>
+               </div>
+               <% } %>
+      </div>
+   </div>
+   <%- include('../partials/foot') %>
