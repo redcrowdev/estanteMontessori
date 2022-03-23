@@ -1,5 +1,6 @@
 //File Requirements
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Review = require('./review');
 const Schema = mongoose.Schema;
 
 //Local variables
@@ -47,6 +48,17 @@ const ActivitySchema = new Schema({
          ref: 'Review'
       }
    ]
+})
+
+
+ActivitySchema.post('findOneAndDelete', async function (doc) {
+   if (doc) {
+      await Review.deleteMany({
+         _id: {
+            $in: doc.reviews
+         }
+      })
+   }
 })
 
 //"Compile" Schema

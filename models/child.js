@@ -1,5 +1,6 @@
 //File Requirements
 const mongoose = require('mongoose')
+const Session = require('./session')
 const Schema = mongoose.Schema;
 
 //Local variables
@@ -35,6 +36,16 @@ const ChildSchema = new Schema({
          ref: 'Session'
       }
    ]
+})
+
+ChildSchema.post('findOneAndDelete', async function (doc) {
+   if (doc) {
+      await Session.deleteMany({
+         _id: {
+            $in: doc.sessions
+         }
+      })
+   }
 })
 
 //"Compile" Schema
