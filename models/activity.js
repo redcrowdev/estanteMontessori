@@ -42,6 +42,10 @@ const ActivitySchema = new Schema({
       type: String,
       default: 'fatherhood.svg'
    },
+   user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+   },
    reviews: [
       {
          type: Schema.Types.ObjectId,

@@ -1,0 +1,39 @@
+<%- include('../partials/head') %>
+   <div class="col-6 offset-3">
+      <h1 class="text-center mb-3">Registre-se</h1>
+      <form action="/registrar" method="POST" class="validate" novalidate>
+         <div class="form-group mb-3">
+            <label for="username">Nome de Usuário</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="seunomedeusuario"
+               required>
+         </div>
+         <div class="form-group mb-3">
+            <label for="email">Endereço de email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@domínio.xyz" required>
+         </div>
+         <div class="form-group mb-3">
+            <label for="password">Senha de Usuário</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="suasenha" required>
+         </div>
+
+         <button type="submit" class="btn btn-primary mt-3">Registrar</button>
+   </div>
+   </form>
+
+   <%- include('../partials/foot') %>
+      <script>
+         (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.validate')
+            Array.prototype.slice.call(forms)
+               .forEach(function (form) {
+                  form.addEventListener('submit', function (event) {
+                     if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                     }
+                     form.classList.add('was-validated')
+                  }, false)
+               })
+         })()
+      </script>

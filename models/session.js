@@ -16,6 +16,10 @@ const SessionSchema = new Schema({
    },
    focusArea: {
       type: String
+   },
+   user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
    }
 })
 

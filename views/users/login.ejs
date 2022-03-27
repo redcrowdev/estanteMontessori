@@ -1,0 +1,43 @@
+<%- include('../partials/head') %>
+   <div class="row">
+      <h1 class=" text-center mb-3">Estante Montessori</h1>
+      <div class="col">
+         teste
+      </div>
+      <div class="col">
+         <form action="/login" method="POST" class="validate" novalidate>
+            <div class="form-group mb-3">
+               <label for="username">Nome de Usuário</label>
+               <input type="text" class="form-control" id="username" name="username" placeholder="seunomedeusuario"
+                  required>
+            </div>
+            <div class="form-group mb-3">
+               <label for="password">Senha de Usuário</label>
+               <input type="password" class="form-control" id="password" name="password" placeholder="suasenha"
+                  required>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+         </form>
+         <p class="text-lead mt-3"> Ainda não é usuário? <a href="/registrar">Registre-se aqui!</a></p>
+      </div>
+   </div>
+
+
+   <%- include('../partials/foot') %>
+      <script>
+         (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.validate')
+            Array.prototype.slice.call(forms)
+               .forEach(function (form) {
+                  form.addEventListener('submit', function (event) {
+                     if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                     }
+                     form.classList.add('was-validated')
+                  }, false)
+               })
+         })()
+      </script>

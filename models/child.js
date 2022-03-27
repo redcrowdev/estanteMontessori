@@ -30,6 +30,10 @@ const ChildSchema = new Schema({
       type: String,
       default: 'toy_car.svg'
    },
+   user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+   },
    sessions: [
       {
          type: Schema.Types.ObjectId,
