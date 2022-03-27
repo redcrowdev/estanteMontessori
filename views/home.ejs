@@ -1,18 +1,85 @@
 <%- include('partials/head') %>
-   <div class="col-6 offset-3">
-      <h1 class="text-center">Bem-Vindo(a) à Estante Montessori</h1>
-      <form>
-         <div class="form-group" action="/" method="GET">
-            <label for="exampleInputEmail1">Endereço de email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-               placeholder="email@domínio.xyz">
 
+   <h1 class=" text-center mb-3">Estante Montessori</h1>
+   <div class="row">
+      <div class="col mb-3">
+         <div class="card">
+            <div class="card-body">
+               <h2 class="text-center mb-3">Bem-Vinda(o)</h2>
+               <p>A Metodologia Montessori é uma das várias abordagens que trazem uma alternativa às metodologias
+                  tradicionais
+                  de ensino.</p>
+               <p>O método Montessori coloca a criança como centro e foco do processo de aprendizagem, repseitando suas
+                  fases
+                  de desenvolvimento fisiológico e psicológico.</p>
+               <p>Além disso, utiliza-se de uma série de ferramentas e técnicas de ensino que trazem não só o conteúdo
+                  acedêmico mas também o cotididano para esse processo.</p>
+               <p>Contudo, o gerenciamento das mais diversas possibilidades de atividades, conteúdos e ferramentas pode
+                  ser um
+                  dificultador no momento de organizar o currículo das aulas.</p>
+               <p>É para auxiliar com isso que o projeto Estante Montessori foi criado. É um projeto vivo, em
+                  desenvolvimento, e conta com sua ajuda e feedback para cresça e possa fazer parte dessa
+                  jornada
+                  incrível que é o aprendizado de uma criança.</p>
+            </div>
          </div>
-         <div class="form-group mt-3">
-            <label for="exampleInputPassword1">Senha de Usuário</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="senha">
-         </div>
+      </div>
+      <div class="col">
+         <div class="card">
+            <div class="card-body">
+               <% if(!currentUser) {%>
+                  <h4 class="mb-3">Faça seu Login</h4>
+                  <form action="/login" method="POST" class="validate" novalidate>
+                     <div class="form-group mb-3">
+                        <label for="username">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                           placeholder="seunomedeusuario" required>
+                     </div>
+                     <div class="form-group mb-3">
+                        <label for="password">Senha de Usuário</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="suasenha"
+                           required>
+                     </div>
 
-         <button type="submit" class="btn btn-primary mt-3">Ingressar</button>
+                     <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+                  </form>
+                  <p class="text-lead mt-3"> Ainda não é usuário? <a href="/registrar">Registre-se aqui!</a></p>
+                  <% } else { %>
+                     <img src="../public/img/mariaMontessori.jpg" alt="" class="rounded-circle mx-auto d-block mb-2"
+                        width="170" height="170">
+                     <h2 class="mb-2 mt-2 text-center">Maria Montessori</h2>
+                     <p>Maria Tecla Artemisia Montessori foi uma educadora, médica e pedagoga italiana. É conhecida pelo
+                        método educativo que
+                        desenvolveu, destacando a importância da liberdade, da atividade e do estímulo para o
+                        desenvolvimento físico e mental
+                        das crianças.</p>
+                     <p>Para ela, liberdade e disciplina se equilibrariam, não sendo possível conquistar uma sem a
+                        outra. Dedicou sua vida a educar os menos favorecidos, focando seu trabalho
+                        em
+                        crianças com
+                        dificuldade de aprendizado, numa época em que a criança era relegada a uma posição secundária e
+                        tratada
+                        como um adulto em miniatura. </p>
+                     <% } %>
+            </div>
+         </div>
+      </div>
    </div>
+
+   <script>
+      (function () {
+         'use strict'
+         var forms = document.querySelectorAll('.validate')
+         Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+               form.addEventListener('submit', function (event) {
+                  if (!form.checkValidity()) {
+                     event.preventDefault()
+                     event.stopPropagation()
+                  }
+                  form.classList.add('was-validated')
+               }, false)
+            })
+      })()
+   </script>
    <%- include('partials/foot') %>

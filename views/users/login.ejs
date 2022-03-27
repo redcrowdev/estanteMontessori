@@ -1,28 +1,51 @@
 <%- include('../partials/head') %>
+   <h1 class=" text-center mb-3">Estante Montessori</h1>
    <div class="row">
-      <h1 class=" text-center mb-3">Estante Montessori</h1>
-      <div class="col">
-         teste
+      <div class="col mb-3">
+         <div class="card">
+            <div class="card-body">
+               <h2 class="text-center mb-3">Bem-Vinda(o)</h2>
+               <p>A Metodologia Montessori é uma das várias abordagens que trazem uma alternativa às metodologias
+                  tradicionais
+                  de ensino.</p>
+               <p>O método Montessori coloca a criança como centro e foco do processo de aprendizagem, repseitando suas
+                  fases
+                  de desenvolvimento fisiológico e psicológico.</p>
+               <p>Além disso, utiliza-se de uma série de ferramentas e técnicas de ensino que trazem não só o conteúdo
+                  acedêmico mas também o cotididano para esse processo.</p>
+               <p>Contudo, o gerenciamento das mais diversas possibilidades de atividades, conteúdos e ferramentas pode
+                  ser um
+                  dificultador no momento de organizar o currículo das aulas.</p>
+               <p>É para auxiliar com isso que o projeto Estante Montessori foi criado. É um projeto vivo, em
+                  desenvolvimento, e conta com sua ajuda e feedback para cresça e possa fazer parte dessa
+                  jornada
+                  incrível que é o aprendizado de uma criança.</p>
+            </div>
+         </div>
       </div>
       <div class="col">
-         <form action="/login" method="POST" class="validate" novalidate>
-            <div class="form-group mb-3">
-               <label for="username">Nome de Usuário</label>
-               <input type="text" class="form-control" id="username" name="username" placeholder="seunomedeusuario"
-                  required>
-            </div>
-            <div class="form-group mb-3">
-               <label for="password">Senha de Usuário</label>
-               <input type="password" class="form-control" id="password" name="password" placeholder="suasenha"
-                  required>
-            </div>
+         <div class="card">
+            <div class="card-body">
+               <h4 class="mb-3">Faça seu Login</h4>
+               <form action="/login" method="POST" class="validate" novalidate>
+                  <div class="form-group mb-3">
+                     <label for="username">Nome de Usuário</label>
+                     <input type="text" class="form-control" id="username" name="username"
+                        placeholder="seunomedeusuario" required>
+                  </div>
+                  <div class="form-group mb-3">
+                     <label for="password">Senha de Usuário</label>
+                     <input type="password" class="form-control" id="password" name="password" placeholder="suasenha"
+                        required>
+                  </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Entrar</button>
-         </form>
-         <p class="text-lead mt-3"> Ainda não é usuário? <a href="/registrar">Registre-se aqui!</a></p>
+                  <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+               </form>
+               <p class="text-lead mt-3"> Ainda não é usuário? <a href="/registrar">Registre-se aqui!</a></p>
+            </div>
+         </div>
       </div>
    </div>
-
 
    <%- include('../partials/foot') %>
       <script>
