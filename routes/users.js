@@ -43,7 +43,7 @@ router.post('/login', passport.authenticate('local', { failireFlash: true, failu
 router.get('/logout', (req, res) => {
    req.logout();
    req.flash('success', 'Usuário deslogado com sucesso!');
-   res.redirect('/atividades');
+   res.redirect('/');
 })
 
 module.exports = router;

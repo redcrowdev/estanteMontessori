@@ -25,7 +25,7 @@ const activitySeeds = [
       theme: 'Vocabulário',
       description: 'Apresentação de figuras com a articulação do nome daquilo que representam e posterior questionamento à criança se ela lembra o nome do objeto/figura representado no cartão.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Manipulação de Objetos',
@@ -35,7 +35,7 @@ const activitySeeds = [
       theme: '',
       description: 'Apresentação de objetos à criança, permitindo a manipulação e observação de suas características.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Clean Up',
@@ -45,7 +45,7 @@ const activitySeeds = [
       theme: '',
       description: 'Estimular a criança a guardar os brinquedos e utensílios após sua utilização, atentando para os lugares corretos de guarda.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Ensinamento Prático',
@@ -55,7 +55,7 @@ const activitySeeds = [
       theme: 'Vida Prática',
       description: 'Convidar a criança para desenvolver uma atividade cotidiana, como lavar a louça, explicando a situação, o que deve ser feito e observando o desenvolvimento desta atividade por ela.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Jogo dos Cheiros',
@@ -65,7 +65,7 @@ const activitySeeds = [
       theme: 'Acuidade Sensorial - Olfato',
       description: 'Apresentar à criança diversas fontes de aromas (ervas, temperos, etc), separadamente, convidando-a a sentir o cheiro, falando o nome de cada coisa e perguntando o que ela achou de cada um.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Pareamento de Cores, Figuras e Formas',
@@ -75,7 +75,7 @@ const activitySeeds = [
       theme: 'Acuidade Sensorial - Visão',
       description: 'Apresentar cartões com figuras ou objetos duplicados ou de cores iguais para que a criança identifique as relações de igualdade e agrupe-os de acordo com essa percepção.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    },
    {
       title: 'Letras de Lixa',
@@ -85,7 +85,7 @@ const activitySeeds = [
       theme: 'Desenvolvimento da Escrita',
       description: 'Conjunto de cartões com as letras do alfabeto desenhadas em forma cursiva com lixa fina, possibilitando que a criança trace os signos com os dedos ao tempo que "sente" como ele é escrito.',
       owned: 'Sim',
-      user: '623f71311a8f5c09204e1749'
+      user: '6240982def25cff0860aa558'
    }
    // {
    //    title:,

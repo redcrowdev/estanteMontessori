@@ -6,7 +6,7 @@ const { isLoggedIn, isActivityOwner, validateActivity } = require('../utils/midd
 const wrapAsync = require('../utils/wrapAsync');
 
 
-router.get('/', wrapAsync(async (req, res, next) => {
+router.get('/', isLoggedIn, wrapAsync(async (req, res, next) => {
    const activities = await Activity.find({}).populate('user');
    if (!activities) {
       //throw new AppError('Erro Interno de Servidor', 502);
