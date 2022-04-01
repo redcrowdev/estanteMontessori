@@ -4,7 +4,7 @@ const Activity = require('../models/activity.js');
 
 //DB Connection
 //mongoose.connect('mongodb://localhost:27017/estanteMontessori', {
-mongoose.connect('mongodb://192.168.15.2:27017/estanteMontessori', {
+mongoose.connect('mongodb+srv://redcrowdev:F9LG4kVd7F3dD4MY@cluster0.rmpqi.mongodb.net/estanteMontessori?retryWrites=true&w=majority', {
    useNewUrlParser: true,
    useUnifiedTopology: true
 });
@@ -25,7 +25,7 @@ const activitySeeds = [
       theme: 'Vocabulário',
       description: 'Apresentação de figuras com a articulação do nome daquilo que representam e posterior questionamento à criança se ela lembra o nome do objeto/figura representado no cartão.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '624762bbe620abdb25c3041f'
    },
    {
       title: 'Manipulação de Objetos',
@@ -35,7 +35,7 @@ const activitySeeds = [
       theme: '',
       description: 'Apresentação de objetos à criança, permitindo a manipulação e observação de suas características.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '62476338e620abdb25c30425'
    },
    {
       title: 'Clean Up',
@@ -45,7 +45,7 @@ const activitySeeds = [
       theme: '',
       description: 'Estimular a criança a guardar os brinquedos e utensílios após sua utilização, atentando para os lugares corretos de guarda.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '624762bbe620abdb25c3041f'
    },
    {
       title: 'Ensinamento Prático',
@@ -55,7 +55,7 @@ const activitySeeds = [
       theme: 'Vida Prática',
       description: 'Convidar a criança para desenvolver uma atividade cotidiana, como lavar a louça, explicando a situação, o que deve ser feito e observando o desenvolvimento desta atividade por ela.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '62476338e620abdb25c30425'
    },
    {
       title: 'Jogo dos Cheiros',
@@ -65,7 +65,7 @@ const activitySeeds = [
       theme: 'Acuidade Sensorial - Olfato',
       description: 'Apresentar à criança diversas fontes de aromas (ervas, temperos, etc), separadamente, convidando-a a sentir o cheiro, falando o nome de cada coisa e perguntando o que ela achou de cada um.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '624762bbe620abdb25c3041f'
    },
    {
       title: 'Pareamento de Cores, Figuras e Formas',
@@ -75,7 +75,7 @@ const activitySeeds = [
       theme: 'Acuidade Sensorial - Visão',
       description: 'Apresentar cartões com figuras ou objetos duplicados ou de cores iguais para que a criança identifique as relações de igualdade e agrupe-os de acordo com essa percepção.',
       owned: 'Sim',
-      user: '6240982def25cff0860aa558'
+      user: '62476338e620abdb25c30425'
    },
    {
       title: 'Letras de Lixa',
