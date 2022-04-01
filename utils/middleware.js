@@ -24,6 +24,16 @@ module.exports.validateActivity = (req, res, next) => {
    }
 }
 
+module.exports.validateChild = (req, res, next) => {
+   const { error } = joiChildSchema.validate(req.body);
+   if (error) {
+      const errmsg = error.details.map(element => element.message).join(',')
+      throw new AppError(errmsg, 400)
+   } else {
+      next();
+   }
+}
+
 module.exports.isActivityOwner = async (req, res, next) => {
    const { id } = req.params;
    const activity = await Activity.findById(id);
