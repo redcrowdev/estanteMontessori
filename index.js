@@ -19,8 +19,8 @@ const usersRoutes = require('./routes/users.js');
 
 //DB connection
 
-//const dbURL = process.env.dbConnection
-const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
+const dbURL = process.env.dbConnection
+//const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 //const dbURL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
 
 mongoose.connect(dbURL, {
