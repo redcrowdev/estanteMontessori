@@ -24,11 +24,8 @@ const usersRoutes = require('./routes/users.js');
 const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 //const dbURL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
 
-const GOOGLE_CLIENT_ID = '562867210665-rpgjsfckh5vb6d63mrbjloor9r173h1v.apps.googleusercontent.com'
-const GOOGLE_CLIENT_SECRET = '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'
-
-// const GOOGLE_CLIENT_ID = process.env.googleClientId
-// const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
+const GOOGLE_CLIENT_ID = process.env.googleClientId
+const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -62,14 +59,14 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-//passport.use(new localStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate()));
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
-   callbackURL: "http://localhost:3000/auth/google/callback",
-   // callbackURL: process.env.NODE_ENV === "production"
-   //    ? `${HOST}/${RETURN_URL}`
-   //    : `${HOST}:${PORT}/${RETURN_URL}`,
+   // callbackURL: "http://localhost:3000/auth/google/callback",
+   callbackURL: process.env.NODE_ENV === "production"
+      ? `${HOST}/${RETURN_URL}`
+      : `${HOST}:${PORT}/${RETURN_URL}`,
    passReqToCallback: true
 },
    function (request, accessToken, refreshToken, profile, done) {
