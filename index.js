@@ -26,6 +26,7 @@ const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 
 const GOOGLE_CLIENT_ID = process.env.googleClientId
 const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
+const googleCallbackURL = `http://estante-montessori.herokuapp.com:${process.env.PORT}/auth/google/callback`
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -63,7 +64,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
-   callbackURL: 'http://estante-montessori.herokuapp.com/auth/google/callback',
+   callbackURL: googleCallbackURL,
    // callbackURL: "http://localhost:3000/auth/google/callback",
    // callbackURL: process.env.NODE_ENV === "production"
    //    ? `${HOST}/${RETURN_URL}`
