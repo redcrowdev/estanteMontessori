@@ -22,7 +22,6 @@ const usersRoutes = require('./routes/users.js');
 
 const dbURL = process.env.dbConnection
 //const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
-//const dbURL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
 
 const GOOGLE_CLIENT_ID = process.env.googleClientId
 const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
@@ -60,7 +59,7 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-//passport.use(new localStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate()));
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
@@ -72,7 +71,7 @@ passport.use(new GoogleStrategy({
    passReqToCallback: true
 },
    function (request, accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ googleId: profile.id, email: profile.email }, function (err, user) {
+      User.findOrCreate({ googleId: profile.id, email: profile.email, username: profile.displayName }, function (err, user) {
          return done(err, user);
       });
    }
