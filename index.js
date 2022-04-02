@@ -7,8 +7,9 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const localStrategy = require('passport-local');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const User = require('./models/user.js');
-const AppError = require('./utils/errorHandling')
+const findOrCreate = require("mongoose-findorcreate");
 
 const activityRoutes = require('./routes/atividades.js');
 const childrenRoutes = require('./routes/criancas.js');
@@ -19,9 +20,15 @@ const usersRoutes = require('./routes/users.js');
 
 //DB connection
 
-const dbURL = process.env.dbConnection
-//const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
+//const dbURL = process.env.dbConnection
+const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 //const dbURL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
+
+const GOOGLE_CLIENT_ID = '562867210665-rpgjsfckh5vb6d63mrbjloor9r173h1v.apps.googleusercontent.com'
+const GOOGLE_CLIENT_SECRET = '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'
+
+// const GOOGLE_CLIENT_ID = process.env.googleClientId
+// const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -55,9 +62,28 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+//passport.use(new localStrategy(User.authenticate()));
+passport.use(new GoogleStrategy({
+   clientID: GOOGLE_CLIENT_ID,
+   clientSecret: GOOGLE_CLIENT_SECRET,
+   callbackURL: "http://localhost:3000/auth/google/callback",
+   // callbackURL: process.env.NODE_ENV === "production"
+   //    ? `${HOST}/${RETURN_URL}`
+   //    : `${HOST}:${PORT}/${RETURN_URL}`,
+   passReqToCallback: true
+},
+   function (request, accessToken, refreshToken, profile, done) {
+      User.findOrCreate({ googleId: profile.id, email: profile.email }, function (err, user) {
+         return done(err, user);
+      });
+   }
+));
+passport.serializeUser((user, done) => {
+   done(null, user)
+});
+passport.deserializeUser((user, done) => {
+   done(null, user)
+});
 
 app.use((req, res, next) => {
    res.locals.currentUser = req.user;
@@ -76,6 +102,16 @@ app.use('/', usersRoutes);
 app.get('/', (req, res) => {
    res.render('home')
 })
+
+app.get('/auth/google',
+   passport.authenticate('google', {
+      scope: ['email', 'profile']
+   }));
+
+app.get('/auth/google/callback', passport.authenticate('google', {
+   successRedirect: '/atividades',
+   failureRedirect: '/login'
+}));
 
 // Page not found handler
 // app.all('*', (req, res, next) => {

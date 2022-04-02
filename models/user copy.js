@@ -1,6 +1,5 @@
 //File Requirements
-const mongoose = require('mongoose');
-const findOrCreate = require('mongoose-findorcreate')
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -23,7 +22,6 @@ const userSchema = new Schema({
 })
 
 userSchema.plugin(passportLocalMongoose);
-userSchema.plugin(findOrCreate);
 
 //"Compile" the Schema
 const User = mongoose.model('User', userSchema);

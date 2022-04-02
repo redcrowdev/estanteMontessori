@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
    <h1 class=" text-center mb-3">Estante Montessori</h1>
    <div class="row">
-      <div class="col mb-3">
+      <div class="col-sm-12 col-md-6 mb-3">
          <div class="card">
             <div class="card-body">
                <h2 class="text-center mb-3">Bem-Vinda(o)</h2>
@@ -23,7 +23,7 @@
             </div>
          </div>
       </div>
-      <div class="col">
+      <div class="col-sm-12 col-md-6 mb-3">
          <div class="card">
             <div class="card-body">
                <h4 class="mb-3">Faça seu Login</h4>
@@ -40,6 +40,10 @@
                   </div>
 
                   <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+               </form>
+               <h6>Ou clique aqui para logar usando sua conta Google</h6>
+               <form action="/auth/google" method="GET">
+                  <button class="btn btn-sm btn-danger" type="submit"> Logar com Google </button>
                </form>
                <p class="text-lead mt-3"> Ainda não é usuário? <a href="/registrar">Registre-se aqui!</a></p>
             </div>
