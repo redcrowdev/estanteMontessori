@@ -59,14 +59,15 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
+//passport.use(new localStrategy(User.authenticate()));
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
+   callbackURL: 'http://estante-montessori.herokuapp.com/auth/google/callback',
    // callbackURL: "http://localhost:3000/auth/google/callback",
-   callbackURL: process.env.NODE_ENV === "production"
-      ? `${HOST}/${RETURN_URL}`
-      : `${HOST}:${PORT}/${RETURN_URL}`,
+   // callbackURL: process.env.NODE_ENV === "production"
+   //    ? `${HOST}/${RETURN_URL}`
+   //    : `${HOST}:${PORT}/${RETURN_URL}`,
    passReqToCallback: true
 },
    function (request, accessToken, refreshToken, profile, done) {
