@@ -26,7 +26,7 @@ const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 
 const GOOGLE_CLIENT_ID = process.env.googleClientId
 const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
-const googleCallbackURL = `http://estante-montessori.herokuapp.com:${process.env.PORT}/auth/google/callback`
+const googleCallbackURL = `https://estante-montessori.herokuapp.com:${process.env.PORT}/auth/google/callback`
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
