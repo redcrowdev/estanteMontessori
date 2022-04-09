@@ -9,7 +9,9 @@
                   <%=activity.title%>
                </h3>
                <p class="card-text">
+                  <!-- This is the line which renders the text -->
                   <%=activity.description%>
+                     <!-- ----------------------------- -->
                </p>
             </div>
             <ul class="list-group list-group-flush">
@@ -30,14 +32,18 @@
                </li>
             </ul>
          </div>
-         <% if(currentUser && activity.user.equals(currentUser._id)) {%>
+         <% if(currentUser.isAdmin==true || currentUser && activity.user.equals(currentUser._id)) {%>
             <div class="card mb-3">
                <div class="card-body">
                   <h4 class="card-text mb-3">Área de Risco</h4>
-                  <a href="/atividades/<%=activity._id%>/editar" class="btn btn-info">Editar Atividade</a>
-                  <form class="d-inline" action="/atividades/<%=activity._id%>/?_method=DELETE" method="POST">
-                     <button class="btn btn-danger">Excluir Atividade</button>
-                  </form>
+                  <% if(currentUser && activity.user.equals(currentUser._id)) {%>
+                     <a href="/atividades/<%=activity._id%>/editar" class="btn btn-info">Editar Atividade</a>
+                     <% } %>
+                        <form class="d-inline" action="/atividades/<%=activity._id%>/?_method=DELETE" method="POST">
+                           <button class="btn btn-danger"
+                              onclick="return confirm('Você tem certeza que deseja excluir esta Atividade?');">Excluir
+                              Atividade</button>
+                        </form>
                </div>
             </div>
             <% } %>
@@ -62,16 +68,6 @@
                               <input class="form-control" type="text" name="review[title]" id="title" size="26">
                            </div>
                         </div>
-                        <!-- <div class="col">
-                        <div class="form-outline">
-                           <div>
-                              <label class="form-label" for="date">Data</label>
-                           </div>
-                           <div>
-                              <input class="form-control" type="date" name="review[date]" id="date">
-                           </div> -->
-                        <!-- </div>
-                     </div> -->
                      </div>
                      <div class="mb-3">
                         <div><label class="form-label" for="body">Comentário</label></div>
@@ -107,16 +103,20 @@
                                           <p>
                                              <%= review.body %>
                                           </p>
-                                          <% if(currentUser && review.user.equals(currentUser._id)) {%>
-                                             <a href="/atividades/<%= activity._id %>/reviews/<%=review._id%>"
-                                                class="btn btn-sm btn-info">Editar Comentário</a>
-
-                                             <form class="d-inline"
-                                                action="/atividades/<%= activity._id %>/reviews/<%=review._id%>?_method=DELETE "
-                                                method="post">
-                                                <button class="btn btn-sm btn-danger">Excluir Comentário</button>
-                                             </form>
-                                             <% } %>
+                                          <% if(currentUser.isAdmin==true || currentUser &&
+                                             activity.user.equals(currentUser._id)) {%>
+                                             <% if(currentUser && review.user.equals(currentUser._id)) { %>
+                                                <a href="/atividades/<%= activity._id %>/reviews/<%=review._id%>"
+                                                   class="btn btn-sm btn-info">Editar Comentário</a>
+                                                <% } %>
+                                                   <form class="d-inline"
+                                                      action="/atividades/<%= activity._id %>/reviews/<%=review._id%>?_method=DELETE "
+                                                      method="post">
+                                                      <button class="btn btn-sm btn-danger"
+                                                         onclick="return confirm('Você tem certeza que deseja excluir este comentário?');">Excluir
+                                                         Comentário</button>
+                                                   </form>
+                                                   <% } %>
                         </div>
                      </div>
                      <%}%>
@@ -125,3 +125,5 @@
    </div>
    </div>
    <%- include('../partials/foot') %>
+      <script type="text/javascript" src="/public/scripts/functions.js"></script>
+      <script>bootstrapFormValidation()</script>

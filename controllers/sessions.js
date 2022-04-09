@@ -19,6 +19,16 @@ module.exports.create = async (req, res) => {
    res.redirect(`/criancas/${child._id}`)
 }
 
+module.exports.canEdit = async (req, res, next) => {
+   const { id, sessionId } = req.params;
+   const session = await Session.findById(sessionId);
+   if (!session.user.equals(req.user._id)) {
+      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
+      return res.redirect(`/atividades/${id}`);
+   }
+   next();
+}
+
 module.exports.editForm = async (req, res) => {
    const child = await Child.findById(req.params.id);
    if (!child) {
@@ -39,6 +49,16 @@ module.exports.editData = async (req, res) => {
    }
    req.flash('success', 'Sessão de Estudo editada com sucesso!')
    res.redirect(`/criancas/${id}`);
+}
+
+module.exports.canDelete = async (req, res, next) => {
+   const { id, sessionId } = req.params;
+   const session = await Session.findById(sessionId);
+   if (req.user.isAdmin == false && !session.user.equals(req.user._id)) {
+      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
+      return res.redirect(`/atividades/${id}`);
+   }
+   next();
 }
 
 module.exports.delete = async (req, res) => {
