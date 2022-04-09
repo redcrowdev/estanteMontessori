@@ -104,7 +104,7 @@
                                              <%= review.body %>
                                           </p>
                                           <% if(currentUser.isAdmin==true || currentUser &&
-                                             activity.user.equals(currentUser._id)) {%>
+                                             review.user.equals(currentUser._id)) {%>
                                              <% if(review.user.equals(currentUser._id)) { %>
                                                 <a href="/atividades/<%= activity._id %>/reviews/<%=review._id%>"
                                                    class="btn btn-sm btn-info">Editar Comentário</a>
