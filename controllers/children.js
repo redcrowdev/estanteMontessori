@@ -1,15 +1,5 @@
 const Child = require('../models/child.js');
 
-module.exports.isChildOwner = async (req, res, next) => {
-   const { id } = req.params;
-   const child = await Child.findById(id);
-   if (req.user.isAdmin == false && !child.user.equals(req.user._id)) {
-      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
-      return res.redirect(`/criancas`);
-   }
-   next();
-}
-
 module.exports.showList = async (req, res, next) => {
    const children = await Child.find({}).populate('user').populate({
       path: 'sessions',
@@ -50,16 +40,6 @@ module.exports.details = async (req, res, next) => {
    res.render('criancas/detalhes', { child });
 }
 
-module.exports.canEdit = async (req, res, next) => {
-   const { id } = req.params;
-   const child = await Child.findById(id);
-   if (!child.user.equals(req.user._id)) {
-      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
-      return res.redirect(`/criancas`);
-   }
-   next();
-}
-
 module.exports.editForm = async (req, res, next) => {
    const child = await Child.findById(req.params.id)
    if (!child) {
@@ -78,16 +58,6 @@ module.exports.editData = async (req, res, next) => {
    }
    req.flash('success', 'Criança editada com sucesso!')
    res.redirect(`/criancas/${child._id}`)
-}
-
-module.exports.canDelete = async (req, res, next) => {
-   const { id } = req.params;
-   const child = await Child.findById(id);
-   if (req.user.isAdmin == false && !child.user.equals(req.user._id)) {
-      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
-      return res.redirect(`/criancas`);
-   }
-   next();
 }
 
 module.exports.delete = async (req, res, next) => {

@@ -26,11 +26,6 @@ const dbURL = process.env.dbConnection
 const GOOGLE_CLIENT_ID = process.env.googleClientId
 const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
 const googleCallbackURL = `https://estante-montessori.herokuapp.com/auth/google/callback`
-const mySecret = process.env.mySecret
-// const googleCallbackURL = 'http://localhost:3000/auth/google/callback'
-// const GOOGLE_CLIENT_ID = '562867210665-rpgjsfckh5vb6d63mrbjloor9r173h1v.apps.googleusercontent.com'
-// const GOOGLE_CLIENT_SECRET = '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'
-// const mySecret = 'myGreatestSecretofAll'
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -51,7 +46,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 const sessionConfig = {
-   secret: mySecret,
+   secret: 'mygreatsecretofall',
    resave: false,
    saveUninitialized: true,
    cookie: {
@@ -69,6 +64,10 @@ passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
    callbackURL: googleCallbackURL,
+   // callbackURL: "http://localhost:3000/auth/google/callback",
+   // callbackURL: process.env.NODE_ENV === "production"
+   //    ? `${HOST}/${RETURN_URL}`
+   //    : `${HOST}:${PORT}/${RETURN_URL}`,
    passReqToCallback: true
 },
    function (request, accessToken, refreshToken, profile, done) {

@@ -31,7 +31,7 @@ const ActivitySchema = new Schema({
    description: {
       type: String,
       required: true,
-      trim: true
+      default: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi totam quia facilis nam dolore porro itaque expedita quas. Quas sapiente qui quibusdam molestiae necessitatibus earum aut dicta quia, repudiandae autem?'
    },
    owned: {
       type: String,
@@ -45,11 +45,6 @@ const ActivitySchema = new Schema({
    user: {
       type: Schema.Types.ObjectId,
       ref: 'User'
-   },
-   date: {
-      type: Date,
-      default: Date.now()
-      //required: true
    },
    reviews: [
       {

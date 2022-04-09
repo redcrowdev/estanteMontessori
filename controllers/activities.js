@@ -2,12 +2,11 @@ const Activity = require('../models/activity.js');
 
 module.exports.showList = async (req, res, next) => {
    const activities = await Activity.find({}).populate('user');
-   const count = await Activity.countDocuments();
    if (!activities) {
       req.flash('error', 'Atividades não encontradas!')
       res.redirect('/home')
    }
-   res.render('atividades/index', { activities, count })
+   res.render('atividades/index', { activities })
 }
 
 module.exports.newForm = (req, res) => {
@@ -40,16 +39,6 @@ module.exports.details = async (req, res, next) => {
    res.render('atividades/detalhes', { activity });
 }
 
-module.exports.canEdit = async (req, res, next) => {
-   const { id } = req.params;
-   const activity = await Activity.findById(id);
-   if (!activity.user.equals(req.user._id)) {
-      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
-      return res.redirect(`/atividades/${id}`);
-   }
-   next();
-}
-
 module.exports.editForm = async (req, res, next) => {
    const { id } = req.params;
    const activity = await Activity.findById(id)
@@ -69,16 +58,6 @@ module.exports.editData = async (req, res, next) => {
    }
    req.flash('success', 'Atividade editada com sucesso!')
    res.redirect(`/atividades/${activity._id}`)
-}
-
-module.exports.canDelete = async (req, res, next) => {
-   const { id } = req.params;
-   const activity = await Activity.findById(id);
-   if (req.user.isAdmin == false && !activity.user.equals(req.user._id)) {
-      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
-      return res.redirect(`/atividades/${id}`);
-   }
-   next();
 }
 
 module.exports.delete = async (req, res, next) => {
