@@ -1,0 +1,92 @@
+<%- include('../partials/head') %>
+
+   <div class="row">
+      <div class="mr-5">
+         <h1 class="mb-4 border-bottom">Índice de Atividades</h1>
+
+         <div class="row">
+            <% if(currentUser) {%>
+               <div class="col-12 col-md-3 mb-3">
+                  <a href="/atividades/nova-atividade" class="btn btn-primary">Nova Atividade</a>
+               </div>
+               <% } %>
+                  <div class="col-12 col-md-9 mb-3">
+                     <row class="d-flex flex-row-reverse">
+                        <div class="col-12 col-md-6">
+                           <input class="form-control" type="text" id="searchBox" onkeyup="filterSearchDiv()"
+                              placeholder="Filtrar Resultados">
+                        </div>
+                     </row>
+                  </div>
+                  <div class="container-fuid" id="searchDiv">
+
+                     <% for(let activity of activities) { %>
+                        <% const dbDate=activity.date.toISOString()%>
+                           <% const day=dbDate.substring(8,10)%>
+                              <% const month=dbDate.substring(5,7)%>
+                                 <% const year=dbDate.substring(0,4)%>
+
+                                    <% const lastUpdated=`${day}/${month}/${year}` %>
+
+                                       <div class="card mb-2" name="toggleDiv">
+                                          <div class="card-body">
+                                             <div class="row justify-content-end">
+                                                <div class="col-12 col-md-3">
+                                                   <img src="/public/img/<%=activity.picture%>" alt="" width="250">
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                   <div class="row border-bottom">
+                                                      <h3 class="card-text text-center pb-3">
+                                                         <%=activity.title%>
+                                                      </h3>
+                                                   </div>
+                                                   <div class="row border-bottom pb-3 pt-3">
+                                                      <div class="col-12 col-md-5">
+                                                         <div class="mb-1">
+                                                            <b>Autor: </b>
+                                                            <%=activity.user.username%>
+                                                         </div>
+                                                         <div class="mb-1">
+                                                            <b>Publicado:</b>
+                                                            <%= lastUpdated %>
+                                                         </div>
+                                                         <div class="mb-1">
+                                                            <b>Faixa Etária: </b>
+                                                            <%=activity.ages%>
+                                                         </div>
+                                                      </div>
+                                                      <div class="col-12 col-md-7">
+                                                         <div class="mb-1">
+                                                            <b>Período Sensível:</b>
+                                                            <%=activity.sensiblePeriod%>
+                                                         </div>
+                                                         <div class="mb-1">
+                                                            <b>Categoria: </b>
+                                                            <%=activity.category%>
+                                                         </div>
+                                                         <div class="mb-1">
+                                                            <b>Tema: </b>
+                                                            <%=activity.theme%>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="row mt-1">
+                                                      <div class="col-12 d-flex flex-row-reverse">
+                                                         <a href="/atividades/<%=activity._id%>"
+                                                            class="btn btn-primary mt-2">Visualizar Atividade</a>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <% } %>
+
+                  </div>
+         </div>
+      </div>
+   </div>
+   <!-- --------- -->
+   <script type="text/javascript" src="/public/scripts/functions.js"></script>
+   <script>filterSearchDiv()</script>
+   <%- include('../partials/foot') %>

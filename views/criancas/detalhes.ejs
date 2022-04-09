@@ -19,21 +19,25 @@
                </li>
             </ul>
          </div>
-         <% if(currentUser && child.user.equals(currentUser._id)) {%>
+         <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id)) {%>
             <div class="card mb-3">
                <div class="card-body">
                   <h4 class="card-text mb-3">Área de Risco</h4>
-                  <a href="/criancas/<%=child._id%>/editar" class="btn btn-info">Editar Criança</a>
-                  <form class="d-inline" action="/criancas/<%=child._id%>/?_method=DELETE" method="POST">
-                     <button class="btn btn-danger">Excluir Criança</button>
-                  </form>
+                  <% if(currentUser && child.user.equals(currentUser._id)) { %>
+                     <a href="/criancas/<%=child._id%>/editar" class="btn btn-info">Editar Criança</a>
+                     <% } %>
+                        <form class="d-inline" action="/criancas/<%=child._id%>/?_method=DELETE" method="POST">
+                           <button class="btn btn-danger"
+                              onclick="return confirm('Você tem certeza que deseja excluir esta Criança?');">Excluir
+                              Criança</button>
+                        </form>
                </div>
             </div>
             <% } %>
                <p><a class="card-link" href="/criancas">Voltar à todas as Crianças</a></p>
       </div>
       <div class="col-md-6">
-         <% if(currentUser) {%>
+         <% if(currentUser && child.user.equals(currentUser._id)) { %>
             <div class="card mb-3">
                <div class="card-body">
                   <h4 class="card-title">Incluir Sessão de Estudo
@@ -130,20 +134,27 @@
                                  <%= session.body %>
                               </p>
                            </li>
-                           <li class="list-group-item">
-                              <a href="/criancas/<%= child._id %>/sessoes/<%=session._id%>"
-                                 class="btn btn-sm btn-info">Editar
-                                 Sessão</a>
-
-                              <form class="d-inline"
-                                 action="/criancas/<%= child._id %>/sessoes/<%=session._id%>?_method=DELETE "
-                                 method="post">
-                                 <button class="btn btn-sm btn-danger">Excluir Sessão</button>
-                              </form>
-                           </li>
+                           <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id)) {%>
+                              <li class="list-group-item">
+                                 <% if(currentUser && child.user.equals(currentUser._id)) {%>
+                                    <a href="/criancas/<%= child._id %>/sessoes/<%=session._id%>"
+                                       class="btn btn-sm btn-info">Editar
+                                       Sessão</a>
+                                    <% } %>
+                                       <form class="d-inline"
+                                          action="/criancas/<%= child._id %>/sessoes/<%=session._id%>?_method=DELETE"
+                                          method="post">
+                                          <button class="btn btn-sm btn-danger"
+                                             onclick="return confirm('Você tem certeza que deseja excluir esta Sessão de Estudo?');">Excluir
+                                             Sessão</button>
+                                       </form>
+                              </li>
+                              <% } %>
                         </ul>
                      </div>
                      <% } %>
       </div>
    </div>
    <%- include('../partials/foot') %>
+      <script type="text/javascript" src="/public/scripts/functions.js"></script>
+      <script>bootstrapFormValidation()</script>

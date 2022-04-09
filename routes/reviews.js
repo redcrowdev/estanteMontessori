@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const wrapAsync = require('../utils/wrapAsync');
 const reviewsController = require('../controllers/reviews.js')
-const { isLoggedIn, isReviewOwner } = require('../utils/middleware.js');
+const { isLoggedIn } = require('../utils/middleware.js');
 
 router.post('/', isLoggedIn, wrapAsync(reviewsController.create))
 
-router.get('/:reviewId', isLoggedIn, wrapAsync(reviewsController.editForm))
+router.get('/:reviewId', isLoggedIn, reviewsController.canEdit, wrapAsync(reviewsController.editForm))
 
-router.put('/:reviewId', isLoggedIn, isReviewOwner, wrapAsync(reviewsController.editData))
+router.put('/:reviewId', isLoggedIn, reviewsController.canEdit, wrapAsync(reviewsController.editData))
 
-router.delete('/:reviewId', isLoggedIn, isReviewOwner, wrapAsync(reviewsController.delete))
+router.delete('/:reviewId', isLoggedIn, reviewsController.canDelete, wrapAsync(reviewsController.delete))
 
 module.exports = router;

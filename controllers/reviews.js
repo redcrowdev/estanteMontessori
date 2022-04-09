@@ -20,6 +20,16 @@ module.exports.create = async (req, res) => {
    res.redirect(`/atividades/${activity._id}`)
 }
 
+module.exports.canEdit = async (req, res, next) => {
+   const { id, reviewId } = req.params;
+   const review = await Review.findById(reviewId);
+   if (!review.user.equals(req.user._id)) {
+      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
+      return res.redirect(`/atividades/${id}`);
+   }
+   next();
+}
+
 module.exports.editForm = async (req, res) => {
    const { id, reviewId } = req.params
    const activity = await Activity.findById(id);
@@ -44,6 +54,16 @@ module.exports.editData = async (req, res) => {
    }
    req.flash('success', 'Comentário editado com sucesso!')
    res.redirect(`/atividades/${id}`);
+}
+
+module.exports.canDelete = async (req, res, next) => {
+   const { id, reviewId } = req.params;
+   const review = await Review.findById(reviewId);
+   if (req.user.isAdmin == false && !review.user.equals(req.user._id)) {
+      req.flash('error', 'Você não tem permissão para executar esta ação!!!')
+      return res.redirect(`/atividades/${id}`);
+   }
+   next();
 }
 
 module.exports.delete = async (req, res) => {

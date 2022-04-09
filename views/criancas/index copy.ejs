@@ -1,0 +1,28 @@
+<%- include('../partials/head') %>
+
+   <h1>Índice de Crianças</h1>
+
+   <div class="row">
+      <% if(currentUser) {%>
+         <div class="col-3 mb-3">
+            <a href="/criancas/nova-crianca" class="btn btn-primary">Nova Criança</a>
+         </div>
+         <% } %>
+   </div>
+   <div class="row">
+      <% for(let child of children) { %>
+         <% if(currentUser && child.user.equals(currentUser._id)) {%>
+            <div class="card col-md-4 mx-1 my-1" style="width: 18rem;">
+               <img src="/public/img/<%=child.picture%>" class="card-img-top" alt="">
+               <div class="card-body">
+                  <h5 class="card-title">
+                     <%=`${child.firstName} ${child.lastName}`%>
+                  </h5>
+
+                  <a href="/criancas/<%=child._id%>" class="btn btn-primary">Detalhes</a>
+               </div>
+               <% } %>
+            </div>
+            <%}%>
+   </div>
+   <%- include('../partials/foot') %>

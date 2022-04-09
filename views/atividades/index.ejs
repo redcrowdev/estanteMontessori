@@ -1,27 +1,85 @@
 <%- include('../partials/head') %>
 
-   <h1>Índice de Atividades</h1>
-
    <div class="row">
-      <% if(currentUser) {%>
-         <div class="col-3 mb-3">
-            <a href="/atividades/nova-atividade" class="btn btn-primary">Nova Atividade</a>
-         </div>
-         <% } %>
-            <div class="row">
-               <% for(let activity of activities) { %>
-                  <div class="card col-md-4 mx-1 my-1" style="width: 18rem;">
-                     <img src="/public/img/<%=activity.picture%>" class="card-img-top" alt="">
-                     <div class="card-body">
-                        <h5 class="card-title">
-                           <%=activity.title%>
-                        </h5>
-                        <p class="card-text">
-                           <%=activity.sensiblePeriod%>
-                        </p>
-                        <a href="/atividades/<%=activity._id%>" class="btn btn-primary">Detalhes</a>
+      <div class="mr-5">
+         <h1 class="mb-3 border-bottom pb-1">
+            Índice de Atividades
+         </h1>
+         <div class="row">
+            <% if(currentUser) {%>
+               <div class="col-12 col-md-4 mb-3">
+                  <a href="/atividades/nova-atividade" class="btn btn-primary">Nova Atividade</a>
+               </div>
+               <% } %>
+                  <div class="col-12 col-md-8 mb-3">
+                     <div class=" row d-flex flex-row-reverse">
+                        <div class="col-12 col-md-6">
+                           <input class="form-control" type="text" id="searchBox" onkeyup="filterSearchDiv()"
+                              placeholder="Filtrar Resultados">
+                        </div>
                      </div>
                   </div>
-                  <%}%>
-            </div>
-            <%- include('../partials/foot') %>
+
+         </div>
+
+      </div>
+   </div>
+   <div class="row">
+      <% for(let activity of activities) { %>
+         <% const dbDate=activity.date.toISOString()%>
+            <% const day=dbDate.substring(8,10)%>
+               <% const month=dbDate.substring(5,7)%>
+                  <% const year=dbDate.substring(0,4)%>
+
+                     <% const lastUpdated=`${day}/${month}/${year}` %>
+
+                        <div class="col-12 col-md-6 col-lg-4 col-xg-2 mb-3" name="toggleDiv">
+                           <div class="card">
+                              <div class="card-body">
+                                 <div class="row text-center">
+                                    <h4 class=" card-title border-bottom mb-1 pb-3">
+                                       <%=activity.title%>
+                                    </h4>
+                                 </div>
+                                 <div class="row">
+                                    <img src="/public/img/<%=activity.picture%>" alt="" class="card-img-top">
+                                 </div>
+                                 <div class="row border-top border-bottom py-2">
+                                    <div class="mb-1">
+                                       <b>Faixa Etária:</b>
+                                       <%=activity.ages%> anos
+                                    </div>
+                                    <div class="mb-1">
+                                       <b>Período Sensível:</b>
+                                       <%=activity.sensiblePeriod%>
+                                    </div>
+                                    <div class="mb-1">
+                                       <b>Categoria:</b>
+                                       <%=activity.category%>
+                                    </div>
+                                    <div class="mb-1">
+                                       <b>Tema:</b>
+                                       <%=activity.theme%>
+                                    </div>
+                                 </div>
+                                 <row class="d-flex flex-row-reverse mt-2">
+                                    <a href="/atividades/<%=activity._id%>"
+                                       class="btn btn-primary mt-2 align-bottom">Visualizar Atividade</a>
+                                 </row>
+                              </div>
+                           </div>
+                        </div>
+
+
+
+
+                        <% } %>
+
+   </div>
+   <div class="row mb-3">
+      <a href="">Voltar ao início da página</a>
+   </div>
+   <!-- --------- -->
+   <script type="text/javascript" src="/public/scripts/functions.js"></script>
+   <script>filterSearchDiv()</script>
+   <%- include('../partials/foot') %>

@@ -61,19 +61,5 @@
 
    <%- include('../partials/foot') %>
 
-      <script>
-         (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.validate')
-            Array.prototype.slice.call(forms)
-               .forEach(function (form) {
-                  form.addEventListener('submit', function (event) {
-                     if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                     }
-                     form.classList.add('was-validated')
-                  }, false)
-               })
-         })()
-      </script>
+      <script type="text/javascript" src="/public/scripts/functions.js"></script>
+      <script>bootstrapFormValidation()</script>

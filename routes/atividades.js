@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const activityController = require('../controllers/activities.js')
-const { isLoggedIn, isActivityOwner, validateActivity } = require('../utils/middleware')
+const { isLoggedIn, validateActivity } = require('../utils/middleware')
 const wrapAsync = require('../utils/wrapAsync');
 
 router.get('/', isLoggedIn, wrapAsync(activityController.showList))
@@ -12,10 +12,10 @@ router.post('/', isLoggedIn, validateActivity, wrapAsync(activityController.crea
 
 router.get('/:id', wrapAsync(activityController.details))
 
-router.get('/:id/editar', isLoggedIn, isActivityOwner, wrapAsync(activityController.editForm))
+router.get('/:id/editar', isLoggedIn, activityController.canEdit, wrapAsync(activityController.editForm))
 
-router.put('/:id', isLoggedIn, isActivityOwner, validateActivity, wrapAsync(activityController.editData))
+router.put('/:id', isLoggedIn, activityController.canEdit, validateActivity, wrapAsync(activityController.editData))
 
-router.delete('/:id', isLoggedIn, isActivityOwner, wrapAsync(activityController.delete))
+router.delete('/:id', isLoggedIn, activityController.canDelete, wrapAsync(activityController.delete))
 
 module.exports = router;
