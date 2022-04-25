@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
 
    <div class="row mb-3">
-      <div class="col-md-6">
+      <div class="col-12 col-md-6">
          <div class="card mb-3">
             <img src="/public/img/<%=child.picture%>" alt="" class="card-img-top">
             <div class="card-body">
@@ -19,6 +19,72 @@
                </li>
             </ul>
          </div>
+
+         <div class="mb-3 p-1 border rounded">
+            <h3 class="text-center mt-2 mb-3">Responsáveis Legais</h3>
+            <div class="accordion" id="parentsInfo">
+               <% child.parents.forEach(parent=> { %>
+                  <div class="accordion mb-1" id="parentsInfo">
+                     <div class="accordion-item">
+                        <h3 class="accordion-header" id="<%= parent._id %>">
+                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#<%= `${parent.firstName}${parent.lastName}` %>" aria-expanded="true"
+                              aria-controls="<%= `${parent.firstName}${parent.lastName}` %>">
+                              <b>
+                                 <%= `${parent.firstName} ${parent.lastName}` %>
+                              </b>
+                           </button>
+                        </h3>
+                        <div id="<%= `${parent.firstName}${parent.lastName}` %>" class="accordion-collapse collapse"
+                           aria-labelledby="<%= parent._id %>" data-bs-parent="#parentsInfo">
+                           <div class="accordion-body">
+                              <ul class="list-group list-group-flush w-100">
+                                 <li class="list-group-item"><b>Gênero:</b>
+                                    <%=parent.gender%>
+                                 </li>
+                                 <li class="list-group-item"><b>RG:</b>
+                                    <%=parent.rg%>
+                                 </li>
+                                 <li class="list-group-item"><b>CPF:</b>
+                                    <%=parent.cpf%>
+                                 </li>
+                                 <li class="list-group-item"><b>Telefone:</b>
+                                    <%=parent.phoneNumber%>
+                                 </li>
+                                 <li class="list-group-item"><b>email:</b>
+                                    <%=parent.email%>
+                                 </li>
+                                 <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id))
+                                    {%>
+                                    <li class="list-group-item">
+                                       <% if(currentUser && child.user.equals(currentUser._id)) {%>
+                                          <a href="/criancas/<%= child._id %>/responsaveis/<%=parent._id%>"
+                                             class="btn btn-sm btn-info">Editar
+                                             Responsável</a>
+                                          <% } %>
+                                             <form class="d-inline"
+                                                action="/criancas/<%= child._id %>/responsaveis/<%=parent._id%>?_method=DELETE"
+                                                method="post">
+                                                <button class="btn btn-sm btn-danger"
+                                                   onclick="return confirm('Você tem certeza que deseja excluir este Responsável Legal?');">Excluir
+                                                   Responsável</button>
+                                             </form>
+                                    </li>
+                                    <% } %>
+
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <%})%>
+            </div>
+            <div class="m-2">
+               <a href="/criancas/<%= child._id %>/responsaveis/novo-responsavel" class="btn btn-success">Adicionar
+                  Responsável Legal</a>
+            </div>
+         </div>
+
          <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id)) {%>
             <div class="card mb-3">
                <div class="card-body">
@@ -36,7 +102,7 @@
             <% } %>
                <p><a class="card-link" href="/criancas">Voltar à todas as Crianças</a></p>
       </div>
-      <div class="col-md-6">
+      <div class="col-12 col-md-6">
          <% if(currentUser && child.user.equals(currentUser._id)) { %>
             <div class="card mb-3">
                <div class="card-body">
@@ -68,12 +134,11 @@
                            <label for="focusArea" class="form-label">Área de Foco</label>
                            <select class="form-select" id="focusArea" name="session[focusArea]">
                               <option value="" selected disabled hidden>Selecione uma Opção</option>
-                              <option value="Focalização da Atenção">Focalização da Atenção</option>
-                              <option value="Limitação de Movimentos">Limitação de Movimentos</option>
-                              <option value="Uso das Mãos">Uso das Mãos</option>
-                              <option value="Repetição">Repetição</option>
-                              <option value="Precisão">Precisão</option>
-                              <option value="Prazer no Trabalho Escolhido">Prazer no Trabalho Escolhido</option>
+                              <% for(let area of focusArea){ %>
+                                 <option value="<%= area.name %>">
+                                    <%= area.name %>
+                                 </option>
+                                 <% } %>
                            </select>
                         </div>
 
@@ -81,12 +146,11 @@
                            <label for="sessionType" class="form-label">Tipo de Sessão</label>
                            <select class="form-select" id="sessionType" name="session[sessionType]">
                               <option value="" selected disabled hidden>Selecione uma Opção</option>
-                              <option value="Atividade">Atividade</option>
-                              <option value="Interação Social">Interação Social</option>
-                              <option value="Livre Brincar">Livre Brincar</option>
-                              <option value="Emocional">Emocional</option>
-                              <option value="Motricidade Fina">Motricidade Fina</option>
-                              <option value="Motricidade Grossa">Motricidade Grossa</option>
+                              <% for(let type of sessionType) {%>
+                                 <option value="<%= type.name %> ">
+                                    <%= type.name %>
+                                 </option>
+                                 <% } %>
                            </select>
                         </div>
                      </div>

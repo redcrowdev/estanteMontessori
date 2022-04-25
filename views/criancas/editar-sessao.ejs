@@ -28,26 +28,28 @@
                <div class="form-outline mb-3">
                   <label for="focusArea" class="form-label">Área de Foco</label>
                   <select class="form-select" id="focusArea" name="session[focusArea]">
-                     <option value="" selected disabled hidden>Selecione uma Opção</option>
-                     <option value="Focalização da Atenção">Focalização da Atenção</option>
-                     <option value="Limitação de Movimentos">Limitação de Movimentos</option>
-                     <option value="Uso das Mãos">Uso das Mãos</option>
-                     <option value="Repetição">Repetição</option>
-                     <option value="Precisão">Precisão</option>
-                     <option value="Prazer no Trabalho Escolhido">Prazer no Trabalho Escolhido</option>
+                     <option value="<%= session.focusArea %> " selected disabled hidden>
+                        <%= session.focusArea %>
+                     </option>
+                     <% for(let area of focusArea){ %>
+                        <option value="<%= area.name %>">
+                           <%= area.name %>
+                        </option>
+                        <% } %>
                   </select>
                </div>
 
                <div class="form-outline mb-3">
                   <label for="sessionType" class="form-label">Área de Foco</label>
                   <select class="form-select" id="sessionType" name="session[sessionType]">
-                     <option value="" selected disabled hidden>Selecione uma Opção</option>
-                     <option value="Atividade">Atividade</option>
-                     <option value="Interação Social">Interação Social</option>
-                     <option value="Livre Brincar">Livre Brincar</option>
-                     <option value="Emocional">Emocional</option>
-                     <option value="Motricidade Fina">Motricidade Fina</option>
-                     <option value="Motricidade Grossa">Motricidade Grossa</option>
+                     <option value="<%= session.sessionType %> " selected disabled hidden>
+                        <%= session.sessionType %>
+                     </option>
+                     <% for(let type of sessionType) {%>
+                        <option value="<%= type.name %> ">
+                           <%= type.name %>
+                        </option>
+                        <% } %>
                   </select>
                </div>
             </div>

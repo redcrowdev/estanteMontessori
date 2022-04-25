@@ -1,0 +1,102 @@
+<%- include('../partials/head') %>
+
+   <h1 class="text-center">Editar Responsável</h1>
+   <div class="col-6 offset-3">
+      <form action="/criancas/<%= child._id %>/responsaveis/<%= parent._id %>?_method=PUT" method="POST" novalidate
+         class="validate">
+         <div class="row">
+
+            <div class="mb-2">
+               <label for="parentFName" class="form-label">Nome</label>
+               <input class="form-control" type="text" id="parentFName" name="parent[firstName]"
+                  value="<%= parent.firstName %>" required>
+            </div>
+            <div class="mb-2">
+               <label for="parentLName" class="form-label">Sobrenome</label>
+               <input class="form-control" type="text" id="parentLName" name="parent[lastName]"
+                  value="<%= parent.lastName %>" required>
+            </div>
+            <div class="mb-2">
+               <label for="parentBirth" class="form-label">Data de Nascimento</label>
+               <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="parentGender">Gênero</label>
+               <select class="form-select" id="parentGender" name="parent[gender]" required>
+                  <option value="<%= parent.gender %>" selected hidden>
+                     <%= parent.gender %>
+                  </option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Masculino">Masculino</option>
+               </select>
+            </div>
+            <div class="mb-2">
+               <label for="rg" class="form-label">RG</label>
+               <input class="form-control" type="text" id="rg" name="parent[rg]" value="<%= parent.rg %>" required>
+            </div>
+            <div class="mb-2">
+               <label for="cpf" class="form-label">CPF</label>
+               <input class="form-control" type="text" id="cpf" name="parent[cpf]" onkeyup="mascaraCPF()"
+                  value="<%= parent.cpf %>" required>
+            </div>
+            <div class="mb-2">
+               <label for="phone" class="form-label">Celular (somente números)</label>
+               <input class="form-control" type="text" id="phone" name="parent[phoneNumber]" onkeyup="mascaraFone()"
+                  value="<%= parent.phoneNumber %>" required>
+            </div>
+            <div class="mb-2">
+               <label for="email" class="form-label">e-mail</label>
+               <input class="form-control" type="email" id="email" name="parent[email]" value="<%= parent.email %>"
+                  required>
+            </div>
+            <div class="mb-2">
+               <label for="parentPicture" class="form-label">Foto</label>
+               <input class="form-control" type="text" id="parentPicture" name="parent[picture]" required>
+            </div>
+            <div class="col-sm-12 col-6 offset-6">
+               <button class="btn btn-primary mt-2 mb-2">
+                  Editar
+               </button>
+            </div>
+         </div>
+      </form>
+   </div>
+
+
+   <%- include('../partials/foot') %>
+
+      <script type="text/javascript" src="/public/scripts/functions.js"></script>
+      <script>bootstrapFormValidation()</script>
+      <script>
+         function mascaraFone() {
+            let fone = document.getElementById("phone").value;
+            fone = fone.replace(/\D/g, "");
+            fone = fone.replace(/^0/, "");
+            if (fone.length > 10) {
+               fone = fone.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else if (fone.length > 5) {
+               if (fone.length == 6 && event.code == "Backspace") {
+                  // necessário pois senão o "-" fica sempre voltando ao dar backspace
+                  return;
+               }
+               fone = fone.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            } else if (fone.length > 2) {
+               fone = fone.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+            } else {
+               if (fone.length != 0) {
+                  fone = fone.replace(/^(\d*)/, "($1");
+               }
+            }
+            document.getElementById("phone").value = fone;
+         }
+      </script>
+      <script>
+         function mascaraCPF() {
+            let cpf = document.getElementById("cpf").value
+            cpf = cpf.replace(/\D/g, "")
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+            document.getElementById("cpf").value = cpf;
+         }
+      </script>

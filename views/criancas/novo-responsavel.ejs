@@ -1,12 +1,10 @@
 <%- include('../partials/head') %>
 
-   <h1 class="text-center">Cadastrar Nova Criança</h1>
-   <form action="/criancas" method="POST" novalidate class="validate">
-      <div class="row">
-         <div class="col-sm-12 col-md-6">
-            <h3 class="text-center mb-2 border-bottom">
-               Dados do Responsável
-            </h3>
+   <h1 class="text-center">Registrar Responsável</h1>
+   <div class="col-6 offset-3">
+      <form action="/criancas/<%= child._id %>/responsaveis" method="POST" novalidate class="validate">
+         <div class="row">
+
             <div class="mb-2">
                <label for="parentFName" class="form-label">Nome</label>
                <input class="form-control" type="text" id="parentFName" name="parent[firstName]" required>
@@ -19,12 +17,16 @@
                <label for="parentBirth" class="form-label">Data de Nascimento</label>
                <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
             </div>
-            <label class="form-label" for="parentGender">Gênero</label>
-            <select class="form-select" id="parentGender" name="parent[gender]" required>
-               <option value="" selected disabled hidden>Selecione uma Opção</option>
-               <option value="Feminino">Feminino</option>
-               <option value="Masculino">Masculino</option>
-            </select>
+            <div class="mb-2">
+               <label class="form-label" for="parentGender">Gênero</label>
+               <select class="form-select" id="parentGender" name="parent[gender]" required>
+                  <option value="" selected hidden>
+                     Selecione uma Opção
+                  </option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Masculino">Masculino</option>
+               </select>
+            </div>
             <div class="mb-2">
                <label for="rg" class="form-label">RG</label>
                <input class="form-control" type="text" id="rg" name="parent[rg]" required>
@@ -46,47 +48,14 @@
                <label for="parentPicture" class="form-label">Foto</label>
                <input class="form-control" type="text" id="parentPicture" name="parent[picture]" required>
             </div>
-         </div>
-
-         <div class="col-sm-12 col-md-6">
-            <h3 class="text-center mb-2 border-bottom">
-               Dados da Criança
-            </h3>
-
-            <div class="mb-2">
-               <label class="form-label" for="firstName">Nome</label>
-               <input class="form-control" type="text" id="firstName" name="child[firstName]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="lastName">Sobrenome</label>
-               <input class="form-control" type="text" id="lastName" name="child[lastName]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="birth">Data de Nascimento</label>
-               <input class="form-control" type="date" id="birth" name="child[birth]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="gender">Gênero</label>
-               <select class="form-select" id="gender" name="child[gender]" required>
-                  <option value="" selected disabled hidden>Selecione uma Opção</option>
-                  <option value="Feminino">Feminino</option>
-                  <option value="Masculino">Masculino</option>
-               </select>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="picture">Imagem</label>
-               <input class="form-control" type="text" id="picture" name="child[picture]">
+            <div class="col-sm-12 col-6 offset-6">
+               <button class="btn btn-primary mt-2 mb-2">
+                  Registrar
+               </button>
             </div>
          </div>
-      </div>
-      <div class="row">
-         <div class="col-sm-12 col-6 offset-6">
-            <button class="btn btn-primary mt-2 mb-2">
-               Cadastrar
-            </button>
-         </div>
-      </div>
-   </form>
+      </form>
+   </div>
 
 
    <%- include('../partials/foot') %>

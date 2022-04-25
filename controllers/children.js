@@ -1,4 +1,8 @@
 const Child = require('../models/child.js');
+const Parent = require('../models/parent.js');
+const User = require("../models/user.js")
+const FocusArea = require('../models/focusArea.js');
+const SessionType = require('../models/sessionType.js');
 
 module.exports.isChildOwner = async (req, res, next) => {
    const { id } = req.params;
@@ -32,22 +36,36 @@ module.exports.newForm = (req, res) => {
 module.exports.create = async (req, res, next) => {
    const child = new Child(req.body.child);
    if (!child) {
-      req.flash('error', 'Erro ao criar a criança!')
-      res.redirect('/criancas/index')
+      req.flash('error', 'Erro ao gravar a Criança!!! Verifique os dados preenchidos para a Criança!')
+      return res.redirect(`/criancas`)
    }
+   const parent = new Parent(req.body.parent);
+   if (!parent) {
+      req.flash('error', 'Erro ao gravar a Criança!!! Verifique os dados preenchidos para o Responsável Legal!')
+      return res.redirect(`/criancas`)
+   }
+   const user = await User.findById(req.user._id); //incluído aqui
+   parent.user = req.user._id;
    child.user = req.user._id;
+   child.parents.push(parent);
+   user.children.push(child); //incluído aqui
+   user.parents.push(parent); //incluído aqui
+   await parent.save();
    await child.save();
-   req.flash('success', 'Criança criada com sucesso!')
-   res.redirect(`/criancas/${child._id}`)
+   await user.save(); //incluído aqui
+   req.flash('success', 'Criança criada com sucesso!');
+   return res.redirect(`/criancas/${child._id}`);
 }
 
 module.exports.details = async (req, res, next) => {
-   const child = await Child.findById(req.params.id).populate('sessions').populate('user');
+   const child = await Child.findById(req.params.id).populate('sessions').populate('user').populate('parents');
+   const focusArea = await FocusArea.find({});
+   const sessionType = await SessionType.find({});
    if (!child) {
       req.flash('error', 'Criança não encontrada!!')
       res.redirect('/criancas/index')
    }
-   res.render('criancas/detalhes', { child });
+   res.render('criancas/detalhes', { child, focusArea, sessionType });
 }
 
 module.exports.canEdit = async (req, res, next) => {
@@ -92,11 +110,35 @@ module.exports.canDelete = async (req, res, next) => {
 
 module.exports.delete = async (req, res, next) => {
    const { id } = req.params;
-   const child = await Child.findByIdAndDelete(id);
+   const child = await Child.findById(id);
    if (!child) {
       req.flash('error', 'Criança não encontrada!!')
       res.redirect('/criancas/index')
    }
+
+   const sessions = child.sessions;
+   sessions.forEach(async session => {
+      await User.findByIdAndUpdate(req.user._id, { $pull: { sessions: session } })
+   });
+
+   const parents = child.parents;
+   parents.forEach(async parent => {
+      await User.findByIdAndUpdate(req.user._id, { $pull: { parents: parent } })
+   });
+
+   await User.findByIdAndUpdate(req.user._id, { $pull: { children: id } })
+   await Child.findByIdAndDelete(id)
    req.flash('success', 'Criança excluida com sucesso!')
    res.redirect('/criancas');
 }
+
+// module.exports.delete = async (req, res, next) => {
+//    const { id } = req.params;
+//    const child = await Child.findByIdAndDelete(id);
+//    if (!child) {
+//       req.flash('error', 'Criança não encontrada!!')
+//       res.redirect('/criancas/index')
+//    }
+//    req.flash('success', 'Criança excluida com sucesso!')
+//    res.redirect('/criancas');
+// }

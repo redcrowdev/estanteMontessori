@@ -1,5 +1,6 @@
 const Activity = require('../models/activity.js');
 const Review = require('../models/review.js');
+const User = require('../models/user.js');
 
 module.exports.create = async (req, res) => {
    const activity = await Activity.findById(req.params.id);
@@ -12,10 +13,13 @@ module.exports.create = async (req, res) => {
       req.flash('error', 'Não foi possível incluir o comentário!')
       return res.redirect(`/atividades/${id}`)
    }
+   const user = await User.findById(req.user._id) //incluído aqui
    review.user = req.user._id;
+   user.reviews.push(review);
    activity.reviews.push(review);
    await review.save();
    await activity.save();
+   await user.save(); //incluído aqui
    req.flash('success', 'Comentário criado com sucesso!')
    res.redirect(`/atividades/${activity._id}`)
 }
@@ -68,12 +72,17 @@ module.exports.canDelete = async (req, res, next) => {
 
 module.exports.delete = async (req, res) => {
    const { id, reviewId } = req.params;
-   await Activity.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+
    const review = await Review.findByIdAndDelete(reviewId);
    if (!review) {
       req.flash('error', 'Comentário não encontrado!')
       return res.redirect(`/atividades/${id}`)
    }
+
+   await Activity.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+
+   await User.findByIdAndUpdate(req.user._id, { $pull: { reviews: reviewId } });
+
    req.flash('success', 'Comentário excluído com sucesso!')
    res.redirect(`/atividades/${id}`)
 }

@@ -1,10 +1,11 @@
 //File Requirements
 const mongoose = require('mongoose')
 const Session = require('./session')
+const Parent = require('./parent.js');
 const Schema = mongoose.Schema;
 
 //Local variables
-const gender = ['femenino', 'masculino']
+const gender = ['Feminino', 'Masculino']
 
 //Child Schema
 const ChildSchema = new Schema({
@@ -30,6 +31,12 @@ const ChildSchema = new Schema({
       type: String,
       default: 'toy_car.svg'
    },
+   parents: [
+      {
+         type: Schema.Types.ObjectId,
+         ref: 'Parent'
+      }
+   ],
    user: {
       type: Schema.Types.ObjectId,
       ref: 'User'
@@ -48,7 +55,12 @@ ChildSchema.post('findOneAndDelete', async function (doc) {
          _id: {
             $in: doc.sessions
          }
-      })
+      });
+      await Parent.deleteMany({
+         _id: {
+            $in: doc.parents
+         }
+      });
    }
 })
 

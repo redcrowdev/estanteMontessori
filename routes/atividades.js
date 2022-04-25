@@ -18,4 +18,4 @@ router.put('/:id', isLoggedIn, activityController.canEdit, validateActivity, wra
 
 router.delete('/:id', isLoggedIn, activityController.canDelete, wrapAsync(activityController.delete))
 
-module.exports = router;
+module.exports = router; 

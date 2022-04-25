@@ -1,4 +1,6 @@
 const Activity = require('../models/activity.js');
+const User = require('../models/user.js');
+const SensiblePeriod = require('../models/sensiblePeriod.js')
 
 module.exports.showList = async (req, res, next) => {
    const activities = await Activity.find({}).populate('user');
@@ -10,8 +12,9 @@ module.exports.showList = async (req, res, next) => {
    res.render('atividades/index', { activities, count })
 }
 
-module.exports.newForm = (req, res) => {
-   res.render('atividades/nova-atividade')
+module.exports.newForm = async (req, res) => {
+   const sensiblePeriod = await SensiblePeriod.find({})
+   res.render('atividades/nova-atividade', { sensiblePeriod })
 }
 
 module.exports.create = async (req, res, next) => {
@@ -20,8 +23,11 @@ module.exports.create = async (req, res, next) => {
       req.flash('error', 'Erro ao criar a Atividade!')
       return res.redirect('/atividades')
    }
+   const user = await User.findById(req.user._id); //incluído aqui
    activity.user = req.user._id;
+   user.activities.push(activity); //incluído aqui
    await activity.save();
+   await user.save(); //incluído aqui
    req.flash('success', 'Atividade criada com sucesso!')
    res.redirect(`/atividades/${activity._id}`)
 }
@@ -53,11 +59,12 @@ module.exports.canEdit = async (req, res, next) => {
 module.exports.editForm = async (req, res, next) => {
    const { id } = req.params;
    const activity = await Activity.findById(id)
+   const sensiblePeriod = await SensiblePeriod.find({})
    if (!activity) {
       req.flash('error', 'Atividade não encontrada!')
       return res.redirect('/atividades')
    }
-   res.render('atividades/editar', { activity });
+   res.render('atividades/editar', { activity, sensiblePeriod });
 }
 
 module.exports.editData = async (req, res, next) => {
@@ -83,11 +90,19 @@ module.exports.canDelete = async (req, res, next) => {
 
 module.exports.delete = async (req, res, next) => {
    const { id } = req.params;
-   const activity = await Activity.findByIdAndDelete(id);
+   const activity = await Activity.findById(id);
    if (!activity) {
       req.flash('error', 'Erro ao excluir a Atividade!')
       return res.redirect('/atividades')
    }
+
+   const reviews = activity.reviews;
+   reviews.forEach(async review => {
+      await User.findByIdAndUpdate(req.user._id, { $pull: { reviews: review } })
+   });
+
+   await User.findByIdAndUpdate(req.user._id, { $pull: { activities: id } })
+   await Activity.findByIdAndDelete(id);
    req.flash('success', 'Atividade excluída com sucesso!')
    res.redirect('/atividades');
 }

@@ -19,17 +19,11 @@
                <option value="<%= activity.sensiblePeriod %>" selected hidden>
                   <%= activity.sensiblePeriod %>
                </option>
-               <option value="Movimento">Movimento</option>
-               <option value="Linguagem">Linguagem</option>
-               <option value="Detalhes">Detalhes</option>
-               <option value="Ordem">Ordem</option>
-               <option value="Desenvolvimento dos Sentidos">Desenvolvimento dos Sentidos</option>
-               <option value="Refinamento dos Sentidos">Refinamento dos Sentidos</option>
-               <option value="Graça e Cortesia">Graça e Cortesia</option>
-               <option value="Música e Ritmo">Música e Ritmo</option>
-               <option value="Escrita">Escrita</option>
-               <option value="Leitura">Leitura</option>
-               <option value="Matemática">Matemática</option>
+               <% for(let period of sensiblePeriod) {%>
+                  <option value="<%= period.name %>">
+                     <%= period.name %>
+                  </option>
+                  <% } %>
             </select>
          </div>
          <div class="mb-2">

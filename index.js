@@ -15,17 +15,23 @@ const activityRoutes = require('./routes/atividades.js');
 const childrenRoutes = require('./routes/criancas.js');
 const reviewsRoutes = require('./routes/reviews.js');
 const sessionsRoutes = require('./routes/sessions.js');
+const parentRoutes = require('./routes/parents.js')
 const usersRoutes = require('./routes/users.js');
 //const { findById } = require('./models/activity.js');
 
 //DB connection
 
-const dbURL = process.env.dbConnection
-//const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
+//const dbURL = process.env.dbConnection
+const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
 
-const GOOGLE_CLIENT_ID = process.env.googleClientId
-const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
-const googleCallbackURL = `https://estante-montessori.herokuapp.com/auth/google/callback`
+// const GOOGLE_CLIENT_ID = process.env.googleClientId
+// const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
+// const googleCallbackURL = `https://estante-montessori.herokuapp.com/auth/google/callback`
+// const mySecret = process.env.mySecret
+const googleCallbackURL = 'http://localhost:3000/auth/google/callback'
+const GOOGLE_CLIENT_ID = '562867210665-rpgjsfckh5vb6d63mrbjloor9r173h1v.apps.googleusercontent.com'
+const GOOGLE_CLIENT_SECRET = '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'
+const mySecret = 'myGreatestSecretofAll'
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -46,7 +52,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 const sessionConfig = {
-   secret: 'mygreatsecretofall',
+   secret: mySecret,
    resave: false,
    saveUninitialized: true,
    cookie: {
@@ -95,6 +101,7 @@ app.use('/atividades', activityRoutes);
 app.use('/atividades/:id/reviews', reviewsRoutes);
 app.use('/criancas', childrenRoutes);
 app.use('/criancas/:id/sessoes/', sessionsRoutes);
+app.use('/criancas/:id/responsaveis/', parentRoutes);
 app.use('/', usersRoutes);
 
 app.get('/', (req, res) => {
