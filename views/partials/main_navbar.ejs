@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Estante Montessori</a>
+      <a class="navbar-brand" href="/">Estante Montessori</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-         <ul class="navbar-nav">
-            <li class="nav-item">
+         <ul class="navbar-nav d-flex">
+            <!-- <li class="nav-item">
                <a class="nav-link" href="/">Home</a>
-            </li>
+            </li> -->
             <% if(currentUser) {%>
                <li class="nav-item">
                   <a class="nav-link" href="/atividades">Lista de Atividades</a>
@@ -18,16 +18,25 @@
                <li class="nav-item">
                   <a class="nav-link" href="/criancas">Lista de Crianças</a>
                </li>
+
+               <li class="nav-item">
+                  <a class="nav-link" href="/indicadores">Indicadores</a>
+               </li>
+
+               <li class="nav-item ms-end">
+                  <% if(!currentUser) {%>
+                     <a class="nav-link" href="/login">Login</a>
+                     <a class="nav-link" href="/registrar">Registre-se</a>
+                     <% } else { %>
+                        <a class="nav-link" href="/logout">Sair</a>
+                        <% } %>
+               </li>
+
+
                <% } %>
          </ul>
+
       </div>
-      <div class="navbar-nav">
-         <% if(!currentUser) {%>
-            <a class="nav-link" href="/login">Login</a>
-            <a class="nav-link" href="/registrar">Registre-se</a>
-            <% } else { %>
-               <a class="nav-link" href="/logout">Sair</a>
-               <% } %>
-      </div>
+
    </div>
 </nav>

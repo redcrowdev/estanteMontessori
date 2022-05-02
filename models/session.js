@@ -12,10 +12,12 @@ const SessionSchema = new Schema({
       type: String
    },
    sessionType: {
-      type: String
+      type: String,
+      trim: true
    },
    focusArea: {
-      type: String
+      type: String,
+      trim: true
    },
    user: {
       type: Schema.Types.ObjectId,

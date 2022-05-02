@@ -1,0 +1,455 @@
+<%- include('../partials/head') %>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+   <div class="">
+      <div class="row">
+         <div class="col mb-3">
+            <h1 class="mb-3 border-bottom pb-1">
+               Estante Montessori em Números
+            </h1>
+         </div>
+      </div>
+
+      <!-- "Global" Variables -->
+      <% const qtyUsers=users.length; const qtyActivities=activities.length; const qtyReviews=reviews.length; const
+         qtyChildren=children.length; const qtySessions=sessions.length;%>
+
+
+         <div class="row justify-content-center">
+
+            <!-- Dataset: Users -->
+            <!-- Users Dataset Variables -->
+            <% const activitiesPerUser=qtyActivities/qtyUsers; const reviewsPerUser=qtyReviews/qtyUsers; const
+               childrenPerUser=qtyChildren/qtyUsers; const sessionsPerUser=qtySessions/qtyUsers; %>
+               <div class="col-12 col-md-6 mb-3">
+                  <div class="card">
+                     <div class="card-body">
+                        <h3 class="text-center mb-2">Média de Itens por Usuário</h3>
+                        <h5 class="text-center text-muted mb-2">Qtd. Usuários: <%= qtyUsers %>
+                        </h5>
+                        <canvas class="w-100 h-100" id="usersChart"></canvas>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Dataset: Activities -->
+               <!-- Activities Dataset Variables -->
+               <% let movement=0; let language=0; let details=0; let order=0; let sensesDevelop=0; let sensesRefine=0;
+                  let cortesy=0; let music=0; let writing=0; let reading=0; let math=0; activities.forEach(activity=> {
+                  switch (activity.sensiblePeriod) {
+                  case 'Movimento':
+                  movement++
+                  break;
+                  case 'Linguagem':
+                  language++
+                  break;
+                  case 'Detalhes':
+                  details++
+                  break;
+                  case "Ordem":
+                  order++
+                  break;
+                  case 'Desenvolvimento dos Sentidos':
+                  sensesDevelop++
+                  break;
+                  case 'Refinamento dos Sentidos':
+                  sensesRefine++
+                  break;
+                  case 'Graça e Cortesia':
+                  cortesy++
+                  break;
+                  case 'Música e Ritmo':
+                  music++
+                  break;
+                  case 'Escrita':
+                  writing++
+                  break;
+                  case 'Leitura':
+                  reading++
+                  break;
+                  case 'Matemática':
+                  math++
+                  break;
+                  default:
+                  break;
+                  }
+                  }) %>
+
+                  <div class="col-12 col-md-6 mb-3">
+                     <div class="card">
+                        <div class="card-body">
+                           <h3 class="text-center mb-2">Atividades por Período Sensível</h3>
+                           <h5 class="text-center text-muted mb-2">Qtd. Atividades: <%= qtyActivities %>
+                           </h5>
+                           <canvas class="w-100 h-100" id="activitiesChart"></canvas>
+                        </div>
+                     </div>
+                  </div>
+
+                  <!-- Dataset: Sessions: Focus Area -->
+                  <!-- Focus Area Dataset Variables -->
+                  <% let attentionFocus=0; let movementLimit=0; let handsUse=0; let repetition=0; let precision=0; let
+                     chosenWork=0; sessions.forEach(session=> {
+                     switch (session.focusArea) {
+                     case 'Focalização da Atenção':
+                     attentionFocus++
+                     break;
+                     case 'Limitação de Movimentos':
+                     movementLimit++
+                     break;
+                     case 'Uso das Mãos':
+                     handsUse++
+                     break;
+                     case "Repetição":
+                     repetition++
+                     break;
+                     case 'Precisão':
+                     precision++
+                     break;
+                     case 'Prazer no Trabalho Escolhido':
+                     chosenWork++
+                     break;
+                     default:
+                     break;
+                     }
+                     }) %>
+
+                     <div class="col-12 col-md-6 mb-3">
+                        <div class="card">
+                           <div class="card-body">
+                              <h3 class="text-center mb-2">Sessões de Estudo por Área de Foco</h3>
+                              <h5 class="text-center text-muted mb-2">Qtd. Sessões: <%= qtySessions %>
+                              </h5>
+                              <canvas class="w-100 h-100" id="focusArea"></canvas>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Dataset: Sessions: Session Type -->
+                     <!-- Focus Area Dataset Variables -->
+                     <% let typeActivity=0; let socialInteraction=0; let freePlay=0; let emotional=0; let
+                        fineMotricity=0; let thickMotricity=0; sessions.forEach(session=> {
+                        switch (session.sessionType) {
+                        case 'Atividade':
+                        typeActivity++
+                        break;
+                        case 'Interação Social':
+                        socialInteraction++
+                        break;
+                        case 'Livre Brincar':
+                        freePlay++
+                        break;
+                        case "Emocional":
+                        emotional++
+                        break;
+                        case 'Motricidade Fina':
+                        fineMotricity++
+                        break;
+                        case 'Motricidade Grossa':
+                        thickMotricity++
+                        break;
+                        default:
+                        break;
+                        }
+                        }) %>
+
+                        <div class="col-12 col-md-6 mb-3">
+                           <div class="card">
+                              <div class="card-body">
+                                 <h3 class="text-center mb-2">Sessões de Estudo por Tipo de Sessão</h3>
+                                 <h5 class="text-center text-muted mb-2">Qtd. Sessões: <%= qtySessions %>
+                                 </h5>
+                                 <canvas class="w-100 h-100" id="sessionType"></canvas>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Dataset top/low numbers -->
+                        <!-- Dataset Variables -->
+                        <% const tuActivities=topUserActivities[0].activities.length; const
+                           tuReviews=topUserRewiews[0].reviews.length; const
+                           tuSessions=topUserSessions[0].sessions.length; const
+                           taReviews=topReviewsActivity[0].reviews.length; const
+                           tcSessions=topSessionsChild[0].sessions.lenght; %>
+                           <div class="col-12 col-md-6 mb-3">
+                              <div class="card">
+                                 <div class="card-body">
+                                    <h3 class="text-center mb-2">Maiores Valores</h3>
+                                    <h5 class="text-center text-muted mb-2">Na Aplicação
+                                    </h5>
+                                    <canvas class="w-100 h-100" id="topLowChart"></canvas>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <!-- Dataset: Averages -->
+                           <!-- Averages Dataset Variables -->
+                           <% const reviewsPerActivity=qtyReviews/qtyActivities; const
+                              sessionsPerChild=qtySessions/qtyChildren; %>
+
+
+                              <div class="col-12 col-md-6 mb-3 h-100">
+                                 <div class="card h-100">
+                                    <div class="card-body">
+                                       <h3 class="text-center mb-2">Médias: Atividades e Crianças</h3>
+                                       <h5 class="text-center text-muted mb-2">Média Aritmética Simples
+                                       </h5>
+                                       <canvas class="w-100 h-100" id="activityChildrenAveragesChart"></canvas>
+                                    </div>
+                                 </div>
+                              </div>
+         </div>
+   </div>
+
+   <!-- Dataset Usuários -->
+   <script>
+      const ctxUsers = document.getElementById('usersChart').getContext('2d');
+      const usersChart = new Chart(ctxUsers, {
+         type: 'bar',
+         data: {
+            labels: ['Atividades', 'Comentários', 'Crianças', 'Sessões'],
+            datasets: [{
+               label: 'Quantidade por Usuário',
+               data: ['<%-activitiesPerUser%>', '<%-reviewsPerUser%>', '<%-childrenPerUser%>', '<%-sessionsPerUser%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5)',
+                  'rgba(54, 162, 235, 0.5)',
+                  'rgba(255, 206, 86, 0.5)',
+                  'rgba(75, 192, 192, 0.5)',
+               ],
+               borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+   <!-- Dataset: Top Numbers -->
+   <script>
+      const ctxTopLow = document.getElementById('topLowChart').getContext('2d');
+      const topLowChart = new Chart(ctxTopLow, {
+         type: 'bar',
+         data: {
+            labels: [' Usuário-Atividades', 'Usuário-Comentários', 'Usuário-Sessões de Estudo', 'Atividade-Comentários', 'Criança-Sessões de Estudo'],
+            datasets: [{
+               label: 'Entidade com maior número de itens',
+               data: ['<%-tuActivities%>', '<%-tuReviews%>', '<%-tuSessions%>', '<%-taReviews%>', '<%-tcSessions%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5 )',
+                  'rgba(54, 162, 235, 0.5 )',
+                  'rgba(255, 206, 86, 0.5 )',
+                  'rgba(75, 192, 192, 0.5 )',
+                  'rgba(100, 19, 132, 0.5 )',
+               ],
+               borderColor: [
+                  'rgba(255, 19, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(100, 19, 132, 1)',
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+   <!-- Dataset: Averages -->
+   <script>
+      const ctxAverages = document.getElementById('activityChildrenAveragesChart').getContext('2d');
+      const AveragesChart = new Chart(ctxAverages, {
+         type: 'bar',
+         data: {
+            labels: ['Comentários por Atividade', 'Sessões por Criança'],
+            datasets: [{
+               label: 'Média Simples',
+               data: ['<%-reviewsPerActivity%>', '<%-sessionsPerChild%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5)',
+                  'rgba(54, 162, 235, 0.5)',
+
+               ],
+               borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+   <!-- Dataset: Activities -->
+   <script>
+      const ctxActivities = document.getElementById('activitiesChart').getContext('2d');
+      const activitiesChart = new Chart(ctxActivities, {
+         type: 'bar',
+         data: {
+            labels: ['Movimento', 'Linguagem', 'Detalhes', 'Ordem', 'Desenvolvimento dos Sentidos', 'Refinamento dos Sentidos', 'Graça e Cortesia', 'Música e Ritmo', 'Escrita', 'Leitura', 'Matemática'],
+            datasets: [{
+               label: 'Quantidade por Período Sensível',
+               data: ['<%-movement%>', '<%-language%>', '<%-details%>', '<%-order%>', '<%-sensesDevelop%>', '<%-sensesRefine%>', '<%-cortesy%>', '<%-music%>', '<%-writing%>', '<%-reading%>', '<%-math%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5 )',
+                  'rgba(54, 162, 235, 0.5 )',
+                  'rgba(255, 206, 86, 0.5 )',
+                  'rgba(75, 192, 192, 0.5 )',
+                  'rgba(100, 19, 132, 0.5 )',
+                  'rgba(154, 162, 235, 0.5 )',
+                  'rgba(55, 206, 86, 0.5 )',
+                  'rgba(175, 192, 192, 0.5 )',
+                  'rgba(25, 19, 132, 0.5 )',
+                  'rgba(40, 162, 235, 0.5 )',
+                  'rgba(135, 206, 86, 0.5 )'
+               ],
+               borderColor: [
+                  'rgba(255, 19, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(100, 19, 132, 1)',
+                  'rgba(154, 162, 235, 1)',
+                  'rgba(55, 206, 86, 1)',
+                  'rgba(175, 192, 192, 1)',
+                  'rgba(25, 19, 132, 1)',
+                  'rgba(40, 162, 235, 1)',
+                  'rgba(135, 206, 86, 1)'
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+   <!-- Dataset: Sessions - Focus Area -->
+   <script>
+      const ctxFocusArea = document.getElementById('focusArea').getContext('2d');
+      const focusAreaChart = new Chart(ctxFocusArea, {
+         type: 'pie',
+         data: {
+            labels: ['Focalização da Atenção', 'Limitação de Movimentos', 'Uso das Mãos', 'Repetição', 'Precisão', 'Prazer no Trabalho Escolhido'],
+            datasets: [{
+               label: 'Quantidade por Área de Foco',
+               data: ['<%-attentionFocus%>', '<%-movementLimit%>', '<%-handsUse%>', '<%-repetition%>', '<%-precision%>', '<%-chosenWork%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5 )',
+                  'rgba(54, 162, 235, 0.5 )',
+                  'rgba(255, 206, 86, 0.5 )',
+                  'rgba(75, 192, 192, 0.5 )',
+                  'rgba(100, 19, 132, 0.5 )',
+                  'rgba(154, 162, 235, 0.5 )'
+               ],
+               borderColor: [
+                  'rgba(255, 19, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(100, 19, 132, 1)',
+                  'rgba(154, 162, 235, 1)'
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+   <!-- Dataset: Sessions - Session Type -->
+   <script>
+      const ctxSessionType = document.getElementById('sessionType').getContext('2d');
+      const sessionType = new Chart(ctxSessionType, {
+         type: 'pie',
+         data: {
+            labels: ['Atividade', 'Interação Social', 'Livre Brincar', 'Emocional', 'Motricidade Fina', 'Motricidade Grossa'],
+            datasets: [{
+               label: 'Quantidade por Tipo de Sessão',
+               data: ['<%-typeActivity%>', '<%-socialInteraction%>', '<%-freePlay%>', '<%-emotional%>', '<%-fineMotricity%>', '<%-thickMotricity%>'],
+               backgroundColor: [
+                  'rgba(255, 19, 132, 0.5 )',
+                  'rgba(54, 162, 235, 0.5 )',
+                  'rgba(255, 206, 86, 0.5 )',
+                  'rgba(75, 192, 192, 0.5 )',
+                  'rgba(100, 19, 132, 0.5 )',
+                  'rgba(154, 162, 235, 0.5 )'
+               ],
+               borderColor: [
+                  'rgba(255, 19, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(100, 19, 132, 1)',
+                  'rgba(154, 162, 235, 1)'
+               ],
+               borderWidth: 1
+            }]
+         },
+         options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+
+
+
+   <!-- --------- -->
+   <script type="text/javascript" src="/public/scripts/functions.js"></script>
+
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+      integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+   <%- include('../partials/foot') %>

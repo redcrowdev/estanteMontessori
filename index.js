@@ -15,8 +15,9 @@ const activityRoutes = require('./routes/atividades.js');
 const childrenRoutes = require('./routes/criancas.js');
 const reviewsRoutes = require('./routes/reviews.js');
 const sessionsRoutes = require('./routes/sessions.js');
-const parentRoutes = require('./routes/parents.js')
+const parentRoutes = require('./routes/parents.js');
 const usersRoutes = require('./routes/users.js');
+const metricsRoutes = require('./routes/metrics.js');
 //const { findById } = require('./models/activity.js');
 
 //DB connection
@@ -103,10 +104,16 @@ app.use('/criancas', childrenRoutes);
 app.use('/criancas/:id/sessoes/', sessionsRoutes);
 app.use('/criancas/:id/responsaveis/', parentRoutes);
 app.use('/', usersRoutes);
+app.use('/indicadores', metricsRoutes);
+
 
 app.get('/', (req, res) => {
    res.render('home')
 })
+
+// app.get('/indicadores', (req, res) => {
+//    res.render('metrics/indicadores')
+// })
 
 app.get('/auth/google',
    passport.authenticate('google', {
