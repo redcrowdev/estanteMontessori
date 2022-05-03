@@ -1,0 +1,98 @@
+<%- include('../partials/head') %>
+
+   <div class="row">
+      <div class="mr-5">
+         <h1 class="mb-3 border-bottom pb-1">
+            Índice de Ferramentas
+         </h1>
+         <div class="row">
+            <% if(currentUser) {%>
+               <div class="col-12 col-md-4 mb-3">
+                  <a href="/ferramentas/nova-ferramenta" class="btn btn-primary">Nova Ferramenta</a>
+               </div>
+               <% } %>
+                  <div class="col-12 col-md-8 mb-3">
+                     <div class=" row d-flex flex-row-reverse">
+                        <div class="col-12 col-md-6">
+                           <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-magnifying-glass d-inline"></i></span>
+                              <input class="form-control" type="text" id="searchBox" onkeyup="filterSearchDiv()"
+                                 placeholder="Filtrar Resultados">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+
+      <% for(let tool of tools) { %>
+         <% let toolId=tool.title; %>
+            <div class="col-12 col-md-6 col-lg-4 col-xg-3 mb-3" name="toggleDiv">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row text-center">
+                        <h4 class=" card-title border-bottom mb-1 pb-3">
+                           <%=tool.title%>
+                        </h4>
+                     </div>
+                     <div class="row">
+                        <img src="public/img/<%=tool.picture%>" alt="" class="card-img-top" style="max-height:20rem;">
+                     </div>
+                     <div class="row border-top border-bottom py-2">
+                        <div class="mb-1">
+                           <b>Período Sensível:</b>
+                           <%= tool.sensiblePeriod %>
+                        </div>
+                        <div class="mb-1">
+                           <b>Faixa Etária:</b>
+                           <%= tool.ages %>
+                        </div>
+
+                        <div class="w-100" id="<%= `${toolId}_Accordion` %>" style="width: 100%;">
+                           <div class="w-100">
+                              <a href='#' onclick="event.preventDefault()" class="link-primary"
+                                 id="<%= `${toolId}_Heading` %>" data-bs-toggle="collapse"
+                                 data-bs-target="<%= `#${toolId}_Collapse` %>" aria-expanded="true"
+                                 aria-controls="<%= `${toolId}_Collapse` %>"><b>Descrição </b>(clique para visualizar)
+                                 </u><i class="fa-solid fa-arrow-down-up-across-line"></i></a>
+                              <div id="<%= `${toolId}_Collapse` %>" class="collapse"
+                                 aria-labelledby="<%= `#${toolId}_Heading` %>"
+                                 data-bs-parent="<%= `#${toolId}_Accordion` %>">
+                                 <div class="accordion-body">
+                                    <%= tool.description %>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row mt-1">
+                        <div class="col-7 mt-1">
+                           <h5 class="mt-2"><b>Área de Risco</b></h5>
+                        </div>
+                        <div class="col-5 d-flex flex-row-reverse mt-1">
+                           <% if(currentUser && tool.user.equals(currentUser._id)) {%>
+                              <a href="/ferramentas/<%=tool._id%>/editar" class="btn btn-sm btn-success m-1">Editar</a>
+                              <% } %>
+                                 <form class="d-inline" action="/ferramentas/<%=tool._id%>/?_method=DELETE"
+                                    method="POST">
+                                    <button class="btn btn-sm btn-danger m-1"
+                                       onclick="return confirm('Você tem certeza que deseja excluir esta Ferramenta?');">Excluir</button>
+                                 </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% } %>
+   </div>
+
+   <div class="row mb-3">
+      <a href="">Voltar ao início da página</a>
+   </div>
+   <!-- --------- -->
+   <script type="text/javascript" src="/public/scripts/functions.js"></script>
+   <script>filterSearchDiv()</script>
+   <%- include('../partials/foot') %>

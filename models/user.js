@@ -8,7 +8,7 @@ const Review = require('./review.js');
 const Child = require('./child.js');
 const Session = require('./session.js');
 const Parent = require('./parent.js');
-// const Tool = require('./tool.js');
+const Tool = require('./tool.js');
 
 //User Schema
 const UserSchema = new Schema({
@@ -55,12 +55,12 @@ const UserSchema = new Schema({
          ref: 'Parent'
       }
    ],
-   // tools: [
-   //    {
-   //       type: Schema.Types.ObjectId,
-   //       ref: 'Tool'
-   //    }
-   // ]
+   tools: [
+      {
+         type: Schema.Types.ObjectId,
+         ref: 'Tool'
+      }
+   ]
 });
 
 UserSchema.post('findOneAndDelete', async function (doc) {
@@ -90,11 +90,11 @@ UserSchema.post('findOneAndDelete', async function (doc) {
             $in: doc.parents
          }
       });
-      // await Tool.deleteMany({
-      //    _id: {
-      //       $in: doc.tools
-      //    }
-      // });
+      await Tool.deleteMany({
+         _id: {
+            $in: doc.tools
+         }
+      });
    }
 })
 

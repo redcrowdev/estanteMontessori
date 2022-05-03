@@ -18,6 +18,7 @@ const sessionsRoutes = require('./routes/sessions.js');
 const parentRoutes = require('./routes/parents.js');
 const usersRoutes = require('./routes/users.js');
 const metricsRoutes = require('./routes/metrics.js');
+const toolsRoutes = require('./routes/tools.js');
 //const { findById } = require('./models/activity.js');
 
 //DB connection
@@ -105,6 +106,7 @@ app.use('/criancas/:id/sessoes/', sessionsRoutes);
 app.use('/criancas/:id/responsaveis/', parentRoutes);
 app.use('/', usersRoutes);
 app.use('/indicadores', metricsRoutes);
+app.use('/ferramentas', toolsRoutes);
 
 
 app.get('/', (req, res) => {

@@ -12,7 +12,7 @@
 
       <!-- "Global" Variables -->
       <% const qtyUsers=users.length; const qtyActivities=activities.length; const qtyReviews=reviews.length; const
-         qtyChildren=children.length; const qtySessions=sessions.length;%>
+         qtyChildren=children.length; const qtySessions=sessions.length; const qtyTools=tools.length;%>
 
 
          <div class="row justify-content-center">
@@ -20,7 +20,8 @@
             <!-- Dataset: Users -->
             <!-- Users Dataset Variables -->
             <% const activitiesPerUser=qtyActivities/qtyUsers; const reviewsPerUser=qtyReviews/qtyUsers; const
-               childrenPerUser=qtyChildren/qtyUsers; const sessionsPerUser=qtySessions/qtyUsers; %>
+               childrenPerUser=qtyChildren/qtyUsers; const sessionsPerUser=qtySessions/qtyUsers; const
+               toolsPerUser=qtyTools/qtyUsers;%>
                <div class="col-12 col-md-6 mb-3">
                   <div class="card">
                      <div class="card-body">
@@ -170,7 +171,7 @@
                            tuReviews=topUserRewiews[0].reviews.length; const
                            tuSessions=topUserSessions[0].sessions.length; const
                            taReviews=topReviewsActivity[0].reviews.length; const
-                           tcSessions=topSessionsChild[0].sessions.lenght; %>
+                           tcSessions=topSessionsChild[0].sessions.length;%>
                            <div class="col-12 col-md-6 mb-3">
                               <div class="card">
                                  <div class="card-body">
@@ -207,21 +208,23 @@
       const usersChart = new Chart(ctxUsers, {
          type: 'bar',
          data: {
-            labels: ['Atividades', 'Comentários', 'Crianças', 'Sessões'],
+            labels: ['Atividades', 'Comentários', 'Crianças', 'Sessões', 'Ferramentas'],
             datasets: [{
                label: 'Quantidade por Usuário',
-               data: ['<%-activitiesPerUser%>', '<%-reviewsPerUser%>', '<%-childrenPerUser%>', '<%-sessionsPerUser%>'],
+               data: ['<%-activitiesPerUser%>', '<%-reviewsPerUser%>', '<%-childrenPerUser%>', '<%-sessionsPerUser%>', '<%-toolsPerUser%>'],
                backgroundColor: [
                   'rgba(255, 19, 132, 0.5)',
                   'rgba(54, 162, 235, 0.5)',
                   'rgba(255, 206, 86, 0.5)',
                   'rgba(75, 192, 192, 0.5)',
+                  'rgba(100, 19, 132, 0.5 )'
                ],
                borderColor: [
                   'rgba(255, 99, 132, 1)',
                   'rgba(54, 162, 235, 1)',
                   'rgba(255, 206, 86, 1)',
                   'rgba(75, 192, 192, 1)',
+                  'rgba(100, 19, 132, 1)'
                ],
                borderWidth: 1
             }]
