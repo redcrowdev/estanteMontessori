@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+<div class="row d-flex justify-content-center">
+   <div class="col-md-6 p-3 border rounded bg-light mb-3">
+   <h1 class="text-center">Editar Perfil</h1>
+   <form action="/<%= currentUser._id %>?_method=PUT" method="POST" novalidate class="validate" enctype="multipart/form-data">
+      <div class="mb-2">
+         <label class="form-label" for="username">Nome de Usuário</label>
+         <input class="form-control" value="<%= currentUser.username %>" type="text" id="username" name="user[username]" required >
+      </div>
+      <div class="mb-2">
+         <label class="form-label" for="email">e-mail</label>
+         <input class="form-control" value="<%= currentUser.email %>" type="email" id="email" name="user[email]" required <%= currentUser.googleId ? 'disabled' : '' %>>
+         <%- currentUser.googleId ? '<div class="form-text">Não é possível mudar o email em contas criadas através do Google</div>' : '' %>
+      </div>
+      <div class="mb-2">
+         <label class="form-label" for="fName">Primeiro Nome</label>
+         <input class="form-control" value="<%= currentUser.fName %>" type="text" id="fName" name="user[fName]" required> 
+      </div>
+      <div class="mb-2">
+         <label class="form-label" for="lName">Último Nome</label>
+         <input class="form-control" value="<%= currentUser.lName %>" type="text" id="lName" name="user[lName]" required> 
+      </div> 
+      <div class="mb-2">
+         <label class="form-label" for="gender">Gênero</label>
+         <select class="form-select" id="gender" name="user[gender]" required>
+            <option value="<%= currentUser.gender %>" selected hidden>
+               <%= currentUser.gender %>
+            </option>
+            <option value="Femenino">Feminino</option>
+            <option value="Masculino">Masculino</option>
+         </select>
+      </div>
+      <div class="mb-2">
+         <label class="form-label" for="picture">Imagem do Perfil</label>
+         <input class="form-control"type="file" name="image" id="picture">
+            <div id="pictureHelp" class="form-text">
+               Aceita imagens de 400x400 pixels. Imagens de tamanho diferente serão cortadas/redimensionadas.
+            </div>
+      </div>
+      <button class="btn btn-primary mt-2">Editar</button>
+      <a href="/perfil" class="btn btn-danger ms-2 mt-2">Cancelar</a>
+   </form>
+</div>
+</div>
+
+
+
+
+<%- include('../partials/foot') %>

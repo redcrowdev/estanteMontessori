@@ -1,59 +1,66 @@
 <%- include('../partials/head') %>
 
-   <div class="col-6 offset-3">
-      <h1 class="text-center">Cadastrar Nova Atividade</h1>
+   <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-6 p-3 border rounded bg-light mb-3">
+         <h1 class="text-center">Cadastrar Nova Atividade</h1>
 
-      <form action="/atividades" method="POST" novalidate class="validate">
-         <div class="mb-2">
-            <label class="form-label" for="title">Título</label>
-            <input class="form-control" type="text" id="title" name="activity[title]" required>
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="ages">Idade</label>
-            <input class="form-control" type="text" id="ages" name="activity[ages]" required>
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="sensiblePeriod">Período Sensível</label>
-            <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]" required>
-               <option value="" selected disabled hidden>Selecione uma Opção</option>
-               <% for(let period of sensiblePeriod) {%>
-                  <option value="<%= period.name %>">
-                     <%= period.name %>
-                  </option>
-                  <% } %>
-            </select>
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="category">Categoria</label>
-            <input class="form-control" type="text" id="category" name="activity[category]">
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="theme">Tema</label>
-            <input class="form-control " type="text" id="theme" name="activity[theme]">
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="description">Descrição</label>
-            <textarea class="form-control" type="text" id="description" name="activity[description]"
-               required></textarea>
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="owned">Possui?</label>
-            <select class="form-select id=" owned" name="activity[owned]" required>
-               <option value="" selected disabled hidden>Selecione uma Opção</option>
-               <option value="Não">Não</option>
-               <option value="Sim">Sim</option>
-            </select>
-         </div>
-         <div class="mb-2">
-            <label class="form-label" for="picture">Imagem</label>
-            <input class="form-control" type="text" id="picture" name="activity[picture]" required>
-         </div>
-         <button class="btn btn-primary mt-2
-         ">Cadastrar</button>
-      </form>
+         <form id="form" action="/atividades" method="POST" novalidate class="validate" enctype="multipart/form-data">
+            <div class="mb-2">
+               <label class="form-label" for="title">Título</label>
+               <input class="form-control" type="text" id="title" name="activity[title]" required>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="ages">Idade</label>
+               <input class="form-control" type="text" id="ages" name="activity[ages]" required>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="sensiblePeriod">Período Sensível</label>
+               <select class="form-select" id="sensiblePeriod" name="activity[sensiblePeriod]" required>
+                  <option value="" selected disabled hidden>Selecione uma Opção</option>
+                  <% for(let period of sensiblePeriod) {%>
+                     <option value="<%= period.name %>">
+                        <%= period.name %>
+                     </option>
+                     <% } %>
+               </select>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="category">Categoria</label>
+               <input class="form-control" type="text" id="category" name="activity[category]">
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="theme">Tema</label>
+               <input class="form-control " type="text" id="theme" name="activity[theme]">
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="description">Descrição</label>
+               <textarea class="form-control" type="text" id="description" name="activity[description]"
+                  hidden></textarea>
+                  <div id="editor"></div>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="owned">Possui?</label>
+               <select class="form-select id=" owned" name="activity[owned]" required>
+                  <option value="" selected disabled hidden>Selecione uma Opção</option>
+                  <option value="Não">Não</option>
+                  <option value="Sim">Sim</option>
+               </select>
+            </div>
+            <div class="mb-2">
+               <label class="form-label" for="picture">Imagem</label><br>
+               <!-- <input class="form-control" type="text" id="picture" name="activity[picture]" required> -->
+               <input class="form-control"type="file" name="image" id="picture">
+               <div id="pictureHelp" class="form-text">
+                  Aceita imagens de 400x400 pixels. Imagens de tamanho diferente serão cortadas/redimensionadas.
+               </div>
+            </div>
+            <button class="btn btn-primary mt-2
+            ">Cadastrar</button>
+         </form>
+      </div>
    </div>
 
    <%- include('../partials/foot') %>
 
-      <script type="text/javascript" src="/public/scripts/functions.js"></script>
-      <script>bootstrapFormValidation()</script>
+   <script>bootstrapFormValidation()</script>
+   <script>createQuill('editor','form','description')</script>

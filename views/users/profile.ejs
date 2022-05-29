@@ -1,0 +1,56 @@
+<%- include('../partials/head') %>
+
+<div class="container p-3 rounded">
+   <div class="row">
+   <h1 class="border-bottom">Perfil de Usuário</h1>
+</div>
+<div class="row d-flex justify-content-center">
+   <div class="col-12 col-md-11">
+      <div class="card mt-3 p-3">
+         <div class="row border-bottom">
+            <div class="col-12 col-md-4 card-body">
+               <img src="<%= user.picture.url %> " alt="" class=" img-fluid picture p-1 align-self-center">
+            </div>
+            <div class="col-12 col-md-4 card-body">
+               <h5 class="card-title text-center mb-3"><b>Dados Pessoais:</b></h5>
+               <p class="card-title border-top pt-1"><b>Nome de Usuário: </b> <%= user.username %> </p>
+               <p class="card-title border-top pt-1"><b>Primeiro Nome: </b> <%= (user.fName ? user.fName : 'Não Registrado') %> </p>
+               <p class="card-title border-top pt-1"><b>Último Nome: </b> <%= (user.lName ? user.lName : 'Não Registrado') %> </p>
+               <p class="card-title border-top pt-1"><b>Gênero: </b> <%= (user.gender ? user.gender : 'Não Registrado') %> </p>
+               <p class="card-title border-top pt-1"><b>e-mail: </b> <%= (user.email ? user.email : 'Não Registrado') %> </p>
+            </div>
+            <div class="col-12 col-md-4 card-body">
+               <h5 class="card-title text-center mb-3"><b>Estatísticas:</b></h5>
+               <p class="card-title border-top pt-1"><b>Atividades Registradas: </b> <%= (user.activities.length) %> </p>
+               <p class="card-title border-top pt-1"><b>Crianças Registradas: </b> <%= (user.children.length) %> </p>
+               <p class="card-title border-top pt-1"><b>Comentários Registrados: </b> <%= (user.reviews.length) %> </p>
+               <p class="card-title border-top pt-1"><b>Sessões Registradas: </b> <%= (user.sessions.length) %> </p>
+               <p class="card-title border-top pt-1"><b>Ferramentas Registradas: </b> <%= (user.tools.length) %> </p>
+            </div>
+         </div>
+         <div class="row mt-3">
+            <div class="col-12 col-sm-8 d-flex flex-column-reverse">
+               <h4 class="align-self-end me-5"><b>Área de Risco</b></h4>
+            </div>
+            <div class="col-12 col-sm-4 ps-5">
+               <a href="/<%= currentUser._id %>/editar" class="btn btn-sm btn-success">
+                  Editar Perfil
+               </a>                       
+               <form class="d-inline"
+                  action="/<%= currentUser._id %>?_method=DELETE"
+                  method="post">
+                  <button class="btn btn-sm btn-danger"
+                     onclick="return confirm('Você tem certeza que deseja excluir seu usuário??? TODOS OS DADOS SERÃO APAGADOS E NÃO PODERÃO SER RECUPERADOS!!! Esta ação é irreversível. Deseja continuar?');">
+                     Excluir Conta
+                  </button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+
+
+
+<%- include('../partials/foot') %>

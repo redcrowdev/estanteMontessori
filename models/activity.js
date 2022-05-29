@@ -39,8 +39,13 @@ const ActivitySchema = new Schema({
       default: 'Não'
    },
    picture: {
-      type: String,
-      default: 'fatherhood.svg'
+      url: {
+         type: String,
+         default: 'public/img/fatherhood.svg'
+      },
+      fileName: {
+         type: String
+      }
    },
    user: {
       type: Schema.Types.ObjectId,

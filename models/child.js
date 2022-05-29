@@ -28,8 +28,13 @@ const ChildSchema = new Schema({
       required: true
    },
    picture: {
-      type: String,
-      default: 'toy_car.svg'
+      url: {
+         type: String,
+         default: 'public/img/toy_car.svg'
+      },
+      fileName: {
+         type: String
+      }
    },
    parents: [
       {

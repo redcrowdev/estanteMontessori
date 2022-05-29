@@ -3,7 +3,7 @@ const User = require('../models/user.js');
 const SensiblePeriod = require('../models/sensiblePeriod.js')
 
 module.exports.showList = async (req, res, next) => {
-   const tools = await Tool.find({});
+   const tools = await Tool.find({}).sort({ "title": -1 });
    if (!tools) {
       req.flash('error', 'Ferramentas não encontradas!')
       res.redirect('/home')
@@ -23,6 +23,12 @@ module.exports.create = async (req, res, next) => {
       return res.redirect('/ferramentas')
    }
    const user = await User.findById(req.user._id);
+   if (req.file) {
+      tool.picture.url = req.file.path;
+   }
+   if (req.file) {
+      tool.picture.fileName = req.file.filename;
+   }
    tool.user = req.user._id;
    user.tools.push(tool);
    await tool.save();
@@ -54,11 +60,19 @@ module.exports.editForm = async (req, res, next) => {
 
 module.exports.editData = async (req, res, next) => {
    const { id } = req.params;
-   const tool = await Tool.findByIdAndUpdate(id, { ...req.body.tool });
+   const tool = await Tool.findById(id);
    if (!tool) {
       req.flash('error', 'Erro ao editar a Ferramenta!')
       return res.redirect('/ferramentas')
    }
+   if (req.file) {
+      tool.picture.url = req.file.path;
+   }
+   if (req.file) {
+      tool.picture.fileName = req.file.filename;
+   }
+   await tool.updateOne({ ...req.body.tool });
+   await tool.save()
    req.flash('success', 'Ferramenta editada com sucesso!')
    res.redirect(`/ferramentas`)
 }

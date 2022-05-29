@@ -10,27 +10,25 @@
                <div class="col-12 col-md-4 mb-3">
                   <a href="/criancas/nova-crianca" class="btn btn-primary">Nova Criança</a>
                </div>
-               <% } %>
-                  <div class="col-12 col-md-8 mb-3">
-                     <div class=" row d-flex flex-row-reverse">
-                        <div class="col-12 col-md-6">
-                           <div class="input-group mb-3">
-                              <span class="input-group-text" id="basic-addon1"><i
-                                    class="fa-solid fa-magnifying-glass d-inline"></i></span>
-                              <input class="form-control" type="text" id="searchBox" onkeyup="filterSearchDiv()"
-                                 placeholder="Filtrar Resultados">
-                           </div>
-                        </div>
+            <% } %>
+            <div class="col-12 col-md-8 mb-3">
+               <div class=" row d-flex flex-row-reverse">
+                  <div class="col-12 col-md-6">
+                     <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i
+                              class="fa-solid fa-magnifying-glass d-inline"></i></span>
+                        <input class="form-control" type="text" id="searchBox" onkeyup="filterSearchDiv()"
+                           placeholder="Filtrar Resultados">
                      </div>
                   </div>
+               </div>
+            </div>
          </div>
-
       </div>
    </div>
    <div class="row">
       <% for(let child of children) { %>
          <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id)) {%>
-
             <div class="col-12 col-md-6 col-lg-4 col-xg-2 mb-3" name="toggleDiv">
                <div class="card">
                   <div class="card-body">
@@ -39,8 +37,8 @@
                            <%=`${child.firstName} ${child.lastName}`%>
                         </h4>
                      </div>
-                     <div class="row">
-                        <img src="/public/img/<%=child.picture%>" alt="" class="card-img-top">
+                     <div class="row mb-1" style="height: 330px;">
+                        <img src="<%=child.picture.url%>" alt="" class="card-img-top picture p-1">
                      </div>
                      <div class="row border-top border-bottom py-2">
                         <div class="mb-1">
@@ -61,11 +59,7 @@
                   </div>
                </div>
             </div>
-
-
-
-
-            <% } %>
+         <% } %>
 
    </div>
    <div class="row mb-3">

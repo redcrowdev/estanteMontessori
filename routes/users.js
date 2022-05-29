@@ -4,7 +4,12 @@ const router = express.Router();
 const passport = require('passport');
 const { NoSaltValueStoredError } = require('passport-local-mongoose/lib/errors');
 const User = require('../models/user.js');
+const userController = require('../controllers/users');
+const { isLoggedIn } = require('../utils/middleware')
 const wrapAsync = require('../utils/wrapAsync')
+const multer = require('multer');
+const { storage } = require('../cloudinary/index.js')
+const upload = multer({ storage });
 
 router.get('/registrar', (req, res) => {
    res.render('users/register')
@@ -30,10 +35,10 @@ router.post('/registrar', wrapAsync(async (req, res, next) => {
 }))
 
 router.get('/login', (req, res) => {
-   res.render('users/login');
+   res.render('/');
 })
 
-router.post('/login', passport.authenticate('local', { failireFlash: true, failureRedirect: '/login' }), (req, res) => {
+router.post('/login', passport.authenticate('local', { failireFlash: true, failureRedirect: '/' }), (req, res) => {
    req.flash('success', 'Bem vinda(o)!');
    const redirectUrl = req.session.returnTo || '/atividades';
    delete req.session.returnTo;
@@ -45,5 +50,13 @@ router.get('/logout', (req, res) => {
    req.flash('success', 'Usuário deslogado com sucesso!');
    res.redirect('/');
 })
+
+router.get('/perfil', isLoggedIn, wrapAsync(userController.view))
+
+router.get('/:id/editar', isLoggedIn, wrapAsync(userController.editForm))
+
+router.put('/:id', isLoggedIn, upload.single('image'), wrapAsync(userController.editData))
+
+router.delete('/:id', isLoggedIn, wrapAsync(userController.delete))
 
 module.exports = router;

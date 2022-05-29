@@ -1,92 +1,94 @@
 <%- include('../partials/head') %>
 
-   <h1 class="text-center">Cadastrar Nova Criança</h1>
-   <form action="/criancas" method="POST" novalidate class="validate">
+  <div class="p-3 border rounded mb-3">
+      <h1 class="text-center">Cadastrar Nova Criança</h1>
+   <form action="/criancas" method="POST" novalidate class="validate" enctype="multipart/form-data">
       <div class="row">
-         <div class="col-sm-12 col-md-6">
-            <h3 class="text-center mb-2 border-bottom">
-               Dados do Responsável
-            </h3>
-            <div class="mb-2">
-               <label for="parentFName" class="form-label">Nome</label>
-               <input class="form-control" type="text" id="parentFName" name="parent[firstName]" required>
-            </div>
-            <div class="mb-2">
-               <label for="parentLName" class="form-label">Sobrenome</label>
-               <input class="form-control" type="text" id="parentLName" name="parent[lastName]" required>
-            </div>
-            <div class="mb-2">
-               <label for="parentBirth" class="form-label">Data de Nascimento</label>
-               <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
-            </div>
-            <label class="form-label" for="parentGender">Gênero</label>
-            <select class="form-select" id="parentGender" name="parent[gender]" required>
-               <option value="" selected disabled hidden>Selecione uma Opção</option>
-               <option value="Feminino">Feminino</option>
-               <option value="Masculino">Masculino</option>
-            </select>
-            <div class="mb-2">
-               <label for="rg" class="form-label">RG</label>
-               <input class="form-control" type="text" id="rg" name="parent[rg]" required>
-            </div>
-            <div class="mb-2">
-               <label for="cpf" class="form-label">CPF</label>
-               <input class="form-control" type="text" id="cpf" name="parent[cpf]" onkeyup="mascaraCPF()" required>
-            </div>
-            <div class="mb-2">
-               <label for="phone" class="form-label">Celular (somente números)</label>
-               <input class="form-control" type="text" id="phone" name="parent[phoneNumber]" onkeyup="mascaraFone()"
-                  required>
-            </div>
-            <div class="mb-2">
-               <label for="email" class="form-label">e-mail</label>
-               <input class="form-control" type="email" id="email" name="parent[email]" required>
-            </div>
-            <div class="mb-2">
-               <label for="parentPicture" class="form-label">Foto</label>
-               <input class="form-control" type="text" id="parentPicture" name="parent[picture]" required>
-            </div>
-         </div>
-
-         <div class="col-sm-12 col-md-6">
-            <h3 class="text-center mb-2 border-bottom">
-               Dados da Criança
-            </h3>
-
-            <div class="mb-2">
-               <label class="form-label" for="firstName">Nome</label>
-               <input class="form-control" type="text" id="firstName" name="child[firstName]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="lastName">Sobrenome</label>
-               <input class="form-control" type="text" id="lastName" name="child[lastName]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="birth">Data de Nascimento</label>
-               <input class="form-control" type="date" id="birth" name="child[birth]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="gender">Gênero</label>
-               <select class="form-select" id="gender" name="child[gender]" required>
+         <div class="col-sm-12 col-md-6 p-3">
+            <div class="p-3 bg-light border rounded">
+               <h3 class="text-center mb-2 border-bottom">
+                  Dados do Responsável
+               </h3>
+               <div class="mb-2">
+                  <label for="parentFName" class="form-label">Nome</label>
+                  <input class="form-control" type="text" id="parentFName" name="parent[firstName]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="parentLName" class="form-label">Sobrenome</label>
+                  <input class="form-control" type="text" id="parentLName" name="parent[lastName]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="parentBirth" class="form-label">Data de Nascimento</label>
+                  <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
+               </div>
+               <label class="form-label" for="parentGender">Gênero</label>
+               <select class="form-select" id="parentGender" name="parent[gender]" required>
                   <option value="" selected disabled hidden>Selecione uma Opção</option>
                   <option value="Feminino">Feminino</option>
                   <option value="Masculino">Masculino</option>
                </select>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="picture">Imagem</label>
-               <input class="form-control" type="text" id="picture" name="child[picture]">
+               <div class="mb-2">
+                  <label for="rg" class="form-label">RG</label>
+                  <input class="form-control" type="text" id="rg" name="parent[rg]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="cpf" class="form-label">CPF</label>
+                  <input class="form-control" type="text" id="cpf" name="parent[cpf]" onkeyup="mascaraCPF()" required>
+               </div>
+               <div class="mb-2">
+                  <label for="phone" class="form-label">Celular (somente números)</label>
+                  <input class="form-control" type="text" id="phone" name="parent[phoneNumber]" onkeyup="mascaraFone()"
+                     required>
+               </div>
+               <div class="mb-2">
+                  <label for="email" class="form-label">e-mail</label>
+                  <input class="form-control" type="email" id="email" name="parent[email]" required>
+               </div>
             </div>
          </div>
-      </div>
-      <div class="row">
-         <div class="col-sm-12 col-6 offset-6">
-            <button class="btn btn-primary mt-2 mb-2">
-               Cadastrar
-            </button>
+
+         <div class="col-sm-12 col-md-6 p-3">
+            <div class="p-3 bg-light border rounded">
+               <h3 class="text-center mb-2 border-bottom">
+                  Dados da Criança
+               </h3>
+               <div class="mb-2">
+                  <label class="form-label" for="firstName">Nome</label>
+                  <input class="form-control" type="text" id="firstName" name="child[firstName]" required>
+               </div>
+               <div class="mb-2">
+                  <label class="form-label" for="lastName">Sobrenome</label>
+                  <input class="form-control" type="text" id="lastName" name="child[lastName]" required>
+               </div>
+               <div class="mb-2">
+                  <label class="form-label" for="birth">Data de Nascimento</label>
+                  <input class="form-control" type="date" id="birth" name="child[birth]" required>
+               </div>
+               <div class="mb-2">
+                  <label class="form-label" for="gender">Gênero</label>
+                  <select class="form-select" id="gender" name="child[gender]" required>
+                     <option value="" selected disabled hidden>Selecione uma Opção</option>
+                     <option value="Feminino">Feminino</option>
+                     <option value="Masculino">Masculino</option>
+                  </select>
+               </div>
+               <div class="mb-2">
+                  <label class="form-label" for="picture">Imagem</label>
+                  <input class="form-control"type="file" name="image" id="picture">
+                  <div id="pictureHelp" class="form-text">
+                     Aceita imagens de 400x400 pixels. Imagens de tamanho diferente serão cortadas/redimensionadas.
+                  </div>
+               </div>
+               <div class="my-3">
+                  <button class="btn btn-primary mt-2 mb-2">
+                     Cadastrar
+                  </button>
+               </div>
+            </div>
          </div>
       </div>
    </form>
+  </div>
 
 
    <%- include('../partials/foot') %>

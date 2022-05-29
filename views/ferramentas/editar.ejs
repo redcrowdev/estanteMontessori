@@ -1,8 +1,9 @@
 <%- include('../partials/head') %>
-   <div class="col-6 offset-3">
+   <div class="row d-flex justify-content-center">
+      <div class="col-md-6 p-3 mb-3 border rounded bg-light">
       <h1 class="text-center">Editar Ferramenta</h1>
 
-      <form action="/ferramentas/<%= tool._id %>?_method=PUT" method="POST" novalidate class="validate">
+      <form action="/ferramentas/<%= tool._id %>?_method=PUT" method="POST" novalidate class="validate" id="form" enctype="multipart/form-data">
          <div class="mb-2">
             <label class="form-label" for="title">Título</label>
             <input class="form-control" value="<%= tool.title %>" type="text" id="title" name="tool[title]" required>
@@ -26,9 +27,9 @@
          </div>
          <div class="mb-2">
             <label class="form-label" for="description">Descrição</label>
-            <textarea class="form-control" id="description" name="tool[description]" required>
-               <%= tool.description.trim() %>
+            <textarea class="form-control" id="description" name="tool[description]" hidden>
             </textarea>
+            <div id="editor"></div>
          </div>
          <div class="mb-2">
             <label class="form-label" for="owned">Possui?</label>
@@ -42,13 +43,16 @@
          </div>
          <div class="mb-2">
             <label class="form-label" for="picture">Imagem</label>
-            <input class="form-control" value="<%= tool.picture %>" type="text" id="picture" name="tool[picture]"
-               required>
+            <input class="form-control"type="file" name="image" id="picture">
+               <div id="pictureHelp" class="form-text">
+                  Aceita imagens de 400x400 pixels. Imagens de tamanho diferente serão cortadas/redimensionadas.
+               </div>
          </div>
          <button class="btn btn-primary mt-2
             ">Editar</button>
       </form>
-      <a href="/ferramentas/<%=tool._id%>">Voltar à Atividade</a>
+      <a href="/ferramentas">Voltar às Ferramentas</a>
+   </div>
    </div>
 
 
@@ -56,3 +60,4 @@
 
       <script type="text/javascript" src="/public/scripts/functions.js"></script>
       <script>bootstrapFormValidation()</script>
+      <script>createQuill('editor','form','description', '<%-tool.description%>')</script>

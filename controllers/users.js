@@ -25,10 +25,10 @@ module.exports.newUser = async (req, res, next) => {
 }
 
 module.exports.loginForm = (req, res) => {
-   res.render('users/login');
+   res.render('/');
 }
 
-module.exports.loginAuth = passport.authenticate('local', { failireFlash: true, failureRedirect: '/login' }), (req, res) => {
+module.exports.loginAuth = passport.authenticate('local', { failireFlash: true, failureRedirect: '/' }), (req, res) => {
    req.flash('success', 'Bem vinda(o)!');
    const redirectUrl = req.session.returnTo || '/atividades';
    delete req.session.returnTo;
@@ -38,5 +38,53 @@ module.exports.loginAuth = passport.authenticate('local', { failireFlash: true, 
 module.exports.logout = (req, res) => {
    req.logout();
    req.flash('success', 'Usuário deslogado com sucesso!');
+   res.redirect('/');
+}
+
+module.exports.view = async (req, res, next) => {
+   const id = req.user._id;
+   const user = await User.findById(id);
+   res.render('users/profile', { user });
+}
+
+module.exports.editForm = async (req, res, next) => {
+   const id = req.user._id;
+   const user = await User.findById(id)
+   if (!user) {
+      req.flash('error', 'Usuário não encontrado!')
+      return res.redirect('/perfil')
+   }
+   res.render('users/editar', { user });
+}
+
+module.exports.editData = async (req, res, next) => {
+   const id = req.user._id;
+   const user = await User.findById(id);
+   if (!user) {
+      req.flash('error', 'Erro ao editar o Usuário!')
+      return res.redirect('/perfil')
+   }
+   if (req.file) {
+      user.picture.url = req.file.path;
+   }
+   if (req.file) {
+      user.picture.fileName = req.file.filename;
+   }
+   await user.updateOne({ ...req.body.user });
+   await user.save()
+   req.flash('success', 'Usuário Editado com sucesso!')
+   res.redirect('/perfil')
+}
+
+module.exports.delete = async (req, res, next) => {
+   const id = req.user._id;
+   const user = await User.findById(id);
+   if (!user) {
+      req.flash('error', 'Erro ao excluir o Usuário')
+      return res.redirect('/perfil')
+   }
+   await User.findByIdAndDelete(id);
+   req.logout();
+   req.flash('success', 'Usuário Excluído com sucesso!')
    res.redirect('/');
 }

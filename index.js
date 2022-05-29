@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+   require('dotenv').config();
+}
+
 //App requirements
 const express = require('express');
 const path = require('path');
@@ -19,21 +23,12 @@ const parentRoutes = require('./routes/parents.js');
 const usersRoutes = require('./routes/users.js');
 const metricsRoutes = require('./routes/metrics.js');
 const toolsRoutes = require('./routes/tools.js');
-//const { findById } = require('./models/activity.js');
 
-//DB connection
-
-//const dbURL = process.env.dbConnection
-const dbURL = 'mongodb://192.168.15.2:27017/estanteMontessori'
-
-// const GOOGLE_CLIENT_ID = process.env.googleClientId
-// const GOOGLE_CLIENT_SECRET = process.env.googleClientSecret
-// const googleCallbackURL = `https://estante-montessori.herokuapp.com/auth/google/callback`
-// const mySecret = process.env.mySecret
-const googleCallbackURL = 'http://localhost:3000/auth/google/callback'
-const GOOGLE_CLIENT_ID = '562867210665-rpgjsfckh5vb6d63mrbjloor9r173h1v.apps.googleusercontent.com'
-const GOOGLE_CLIENT_SECRET = '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'
-const mySecret = 'myGreatestSecretofAll'
+const dbURL = process.env.dbURL;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const googleCallbackURL = process.env.googleCallbackURL;
+const mySecret = process.env.mySecret;
 
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
@@ -67,23 +62,34 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
+// passport.use(new localStrategy(User.authenticate()));
+passport.use(new localStrategy({
+   usernameField: 'email'
+}, User.authenticate()));
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
    callbackURL: googleCallbackURL,
-   // callbackURL: "http://localhost:3000/auth/google/callback",
-   // callbackURL: process.env.NODE_ENV === "production"
-   //    ? `${HOST}/${RETURN_URL}`
-   //    : `${HOST}:${PORT}/${RETURN_URL}`,
    passReqToCallback: true
 },
-   function (request, accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ googleId: profile.id, email: profile.email, username: profile.displayName }, function (err, user) {
+   async function (request, accessToken, refreshToken, profile, done) {
+
+      const getUser = User.findOne({ email: profile.email });
+
+      if (!getUser) {
+         const username = profile.email.substring(0, profile.email.indexOf('@'));
+         console.log(username);
+         User.findOrCreate({ googleId: profile.id, email: profile.email, fName: profile.given_name, lName: profile.family_name, username: username }, function (err, user) {
+            return done(err, user);
+         });
+      };
+      User.findOne({ googleId: profile.id, email: profile.email }, function (err, user) {
          return done(err, user);
       });
+
    }
 ));
+
 passport.serializeUser((user, done) => {
    done(null, user)
 });
@@ -113,10 +119,6 @@ app.get('/', (req, res) => {
    res.render('home')
 })
 
-// app.get('/indicadores', (req, res) => {
-//    res.render('metrics/indicadores')
-// })
-
 app.get('/auth/google',
    passport.authenticate('google', {
       scope: ['email', 'profile']
@@ -124,41 +126,8 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback', passport.authenticate('google', {
    successRedirect: '/atividades',
-   failureRedirect: '/login'
+   failureRedirect: '/home'
 }));
-
-// Page not found handler
-// app.all('*', (req, res, next) => {
-//    next(new AppError('Recurso Não Localizado', 404))
-// })
-
-// app.all('*', (req, res, next) => {
-//    next(new AppError('Erro de Requisição', 404))
-//    res.redirect('/atividades')
-// })
-
-// app.use((err, req, res, next) => {
-//    const { status = 500 } = err
-//    if (!err.message) {
-//       err.message = 'Internal Server Error.'
-//    }
-//    //res.status(status).send(`Erro ${status}: ${message}`)
-//    //console.log(err)
-//    res.status(status).render('error', { err })
-// })
-
-
-
-//Very basic error handling
-// app.use((err, req, res, next) => {
-//    const { status = 500 } = err
-//    if (!err.message) {
-//       err.message = 'Internal Server Error.'
-//    }
-//    //res.status(status).send(`Erro ${status}: ${message}`)
-//    //console.log(err)
-//    res.status(status).render('error', { err })
-// })
 
 //App service
 const PORT = process.env.PORT || 3000;

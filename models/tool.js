@@ -27,8 +27,13 @@ const ToolSchema = new Schema({
       default: 'Não'
    },
    picture: {
-      type: String,
-      default: 'play_time.svg'
+      url: {
+         type: String,
+         default: 'public/img/teddy_bear.svg'
+      },
+      fileName: {
+         type: String
+      }
    },
    user: {
       type: Schema.Types.ObjectId,

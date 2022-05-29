@@ -15,14 +15,13 @@ module.exports.isChildOwner = async (req, res, next) => {
 }
 
 module.exports.showList = async (req, res, next) => {
-   const children = await Child.find({}).populate('user').populate({
+   const children = await Child.find({}).sort({ firstName: 'asc', lastName: 'asc' }).populate('user').populate({
       path: 'sessions',
       populate: {
          path: 'user'
       }
    });
    if (!children) {
-      //throw new AppError('Erro Interno de Servidor', 502);
       req.flash('error', 'Crianças não encontradas!')
       res.redirect('/home')
    }
@@ -47,6 +46,12 @@ module.exports.create = async (req, res, next) => {
    const user = await User.findById(req.user._id); //incluído aqui
    parent.user = req.user._id;
    child.user = req.user._id;
+   if (req.file) {
+      child.picture.url = req.file.path;
+   }
+   if (req.file) {
+      child.picture.fileName = req.file.filename;
+   }
    child.parents.push(parent);
    user.children.push(child); //incluído aqui
    user.parents.push(parent); //incluído aqui
@@ -89,11 +94,19 @@ module.exports.editForm = async (req, res, next) => {
 
 module.exports.editData = async (req, res, next) => {
    const { id } = req.params;
-   const child = await Child.findByIdAndUpdate(id, { ...req.body.child });
+   const child = await Child.findById(id);
    if (!child) {
       req.flash('error', 'Criança não encontrada!!')
       res.redirect('/criancas/index')
    }
+   if (req.file) {
+      child.picture.url = req.file.path;
+   }
+   if (req.file) {
+      child.picture.fileName = req.file.filename;
+   }
+   await child.updateOne({ ...req.body.child });
+   await child.save()
    req.flash('success', 'Criança editada com sucesso!')
    res.redirect(`/criancas/${child._id}`)
 }
@@ -131,14 +144,3 @@ module.exports.delete = async (req, res, next) => {
    req.flash('success', 'Criança excluida com sucesso!')
    res.redirect('/criancas');
 }
-
-// module.exports.delete = async (req, res, next) => {
-//    const { id } = req.params;
-//    const child = await Child.findByIdAndDelete(id);
-//    if (!child) {
-//       req.flash('error', 'Criança não encontrada!!')
-//       res.redirect('/criancas/index')
-//    }
-//    req.flash('success', 'Criança excluida com sucesso!')
-//    res.redirect('/criancas');
-// }

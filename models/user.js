@@ -12,10 +12,23 @@ const Tool = require('./tool.js');
 
 //User Schema
 const UserSchema = new Schema({
+   username: {
+      type: String,
+      unique: true
+   },
    email: {
       type: String,
       required: true,
       unique: true
+   },
+   fName: {
+      type: String
+   },
+   lName: {
+      type: String
+   },
+   gender: {
+      type: String
    },
    isAdmin: {
       type: Boolean,
@@ -60,7 +73,16 @@ const UserSchema = new Schema({
          type: Schema.Types.ObjectId,
          ref: 'Tool'
       }
-   ]
+   ],
+   picture: {
+      url: {
+         type: String,
+         default: 'public/img/profile_pic.svg'
+      },
+      fileName: {
+         type: String
+      }
+   },
 });
 
 UserSchema.post('findOneAndDelete', async function (doc) {
@@ -98,7 +120,8 @@ UserSchema.post('findOneAndDelete', async function (doc) {
    }
 })
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose,
+   { usernameField: 'email' });
 UserSchema.plugin(findOrCreate);
 
 //"Compile" the Schema

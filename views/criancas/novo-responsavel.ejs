@@ -1,60 +1,65 @@
 <%- include('../partials/head') %>
 
    <h1 class="text-center">Registrar Responsável</h1>
-   <div class="col-6 offset-3">
-      <form action="/criancas/<%= child._id %>/responsaveis" method="POST" novalidate class="validate">
-         <div class="row">
+   <div class="row d-flex justify-content-center">
+      <div class="col-md-6 p-3 border rounded bg-light mb-3">
+         <form action="/criancas/<%= child._id %>/responsaveis" method="POST" novalidate class="validate" enctype="multipart/form-data">
+            <div class="row">
 
-            <div class="mb-2">
-               <label for="parentFName" class="form-label">Nome</label>
-               <input class="form-control" type="text" id="parentFName" name="parent[firstName]" required>
+               <div class="mb-2">
+                  <label for="parentFName" class="form-label">Nome</label>
+                  <input class="form-control" type="text" id="parentFName" name="parent[firstName]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="parentLName" class="form-label">Sobrenome</label>
+                  <input class="form-control" type="text" id="parentLName" name="parent[lastName]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="parentBirth" class="form-label">Data de Nascimento</label>
+                  <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
+               </div>
+               <div class="mb-2">
+                  <label class="form-label" for="parentGender">Gênero</label>
+                  <select class="form-select" id="parentGender" name="parent[gender]" required>
+                     <option value="" selected hidden>
+                        Selecione uma Opção
+                     </option>
+                     <option value="Feminino">Feminino</option>
+                     <option value="Masculino">Masculino</option>
+                  </select>
+               </div>
+               <div class="mb-2">
+                  <label for="rg" class="form-label">RG</label>
+                  <input class="form-control" type="text" id="rg" name="parent[rg]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="cpf" class="form-label">CPF</label>
+                  <input class="form-control" type="text" id="cpf" name="parent[cpf]" onkeyup="mascaraCPF()" required>
+               </div>
+               <div class="mb-2">
+                  <label for="phone" class="form-label">Celular (somente números)</label>
+                  <input class="form-control" type="text" id="phone" name="parent[phoneNumber]" onkeyup="mascaraFone()"
+                     required>
+               </div>
+               <div class="mb-2">
+                  <label for="email" class="form-label">e-mail</label>
+                  <input class="form-control" type="email" id="email" name="parent[email]" required>
+               </div>
+               <div class="mb-2">
+                  <label for="parentPicture" class="form-label">Foto</label>
+                  <input class="form-control"type="file" name="image" id="parentPicture">
+                  <div id="pictureHelp" class="form-text">
+                     Aceita imagens de 400x400 pixels. Imagens de tamanho diferente serão cortadas/redimensionadas.
+                  </div>
+               </div>
+               <div class="col-sm-12 col-6 offset-6">
+                  <button class="btn btn-primary mt-2 mb-2">
+                     Registrar
+                  </button>
+               </div>
             </div>
-            <div class="mb-2">
-               <label for="parentLName" class="form-label">Sobrenome</label>
-               <input class="form-control" type="text" id="parentLName" name="parent[lastName]" required>
-            </div>
-            <div class="mb-2">
-               <label for="parentBirth" class="form-label">Data de Nascimento</label>
-               <input class="form-control" type="date" id="parentBirth" name="parent[birth]" required>
-            </div>
-            <div class="mb-2">
-               <label class="form-label" for="parentGender">Gênero</label>
-               <select class="form-select" id="parentGender" name="parent[gender]" required>
-                  <option value="" selected hidden>
-                     Selecione uma Opção
-                  </option>
-                  <option value="Feminino">Feminino</option>
-                  <option value="Masculino">Masculino</option>
-               </select>
-            </div>
-            <div class="mb-2">
-               <label for="rg" class="form-label">RG</label>
-               <input class="form-control" type="text" id="rg" name="parent[rg]" required>
-            </div>
-            <div class="mb-2">
-               <label for="cpf" class="form-label">CPF</label>
-               <input class="form-control" type="text" id="cpf" name="parent[cpf]" onkeyup="mascaraCPF()" required>
-            </div>
-            <div class="mb-2">
-               <label for="phone" class="form-label">Celular (somente números)</label>
-               <input class="form-control" type="text" id="phone" name="parent[phoneNumber]" onkeyup="mascaraFone()"
-                  required>
-            </div>
-            <div class="mb-2">
-               <label for="email" class="form-label">e-mail</label>
-               <input class="form-control" type="email" id="email" name="parent[email]" required>
-            </div>
-            <div class="mb-2">
-               <label for="parentPicture" class="form-label">Foto</label>
-               <input class="form-control" type="text" id="parentPicture" name="parent[picture]" required>
-            </div>
-            <div class="col-sm-12 col-6 offset-6">
-               <button class="btn btn-primary mt-2 mb-2">
-                  Registrar
-               </button>
-            </div>
-         </div>
-      </form>
+         </form>
+      </div>
    </div>
 
 

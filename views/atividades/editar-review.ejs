@@ -1,8 +1,9 @@
 <%- include('../partials/head') %>
-   <div class="col-6 offset-3">
+ <div class="row d-flex justify-content-center">
+      <div class="col-md-6 offset-3 p-3 border rounded bg-light">
       <h1 class="text-center">Editar Comentário</h1>
 
-      <form action="/atividades/<%= activity._id %>/reviews/<%=review._id%>?_method=PUT" method="POST">
+      <form action="/atividades/<%= activity._id %>/reviews/<%=review._id%>?_method=PUT" method="POST" id="form">
          <div class="row mb-3">
             <div class="col">
                <div>
@@ -21,18 +22,20 @@
 
                <div class="mb-3">
                   <div><label class="form-label" for="body">Comentário</label></div>
-                  <div><textarea class="form-control" name="review[body]" id="body" cols="42" rows="10">
+                  <div><textarea class="form-control" name="review[body]" id="body" cols="42" rows="10" hidden>
                         <%= review.body.trim() %>
                      </textarea>
+                     
                   </div>
+                  <div id="editor"></div>
                </div>
                <button class="btn btn-success">Editar Comentário</button>
       </form>
       <a href="/atividades/<%=activity._id%>">Voltar à Atividade</a>
    </div>
+ </div>
 
 
    <%- include('../partials/foot') %>
-
-      <script type="text/javascript" src="/public/scripts/functions.js"></script>
-      <script>bootstrapFormValidation()</script>
+   <script>bootstrapFormValidation()</script>
+   <script>createQuill('editor','form','body', '<%-review.body%>')</script>

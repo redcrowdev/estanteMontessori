@@ -1,16 +1,15 @@
 <%- include('../partials/head') %>
-
    <div class="row mb-3">
       <div class="col-md-6">
          <div class="card mb-3">
-            <img src="/public/img/<%=activity.picture%>" alt="" class="card-img-top">
+            <a href="<%=activity.picture.url%>"><img src="<%=activity.picture.url%>" alt="" class="card-img-top picture p-1"></a>
             <div class="card-body">
-               <h3 class="card-title">
+               <h1 class="card-title">
                   <%=activity.title%>
-               </h3>
+               </h1>
                <p class="card-text">
                   <!-- This is the line which renders the text -->
-                  <%=activity.description%>
+                  <%-activity.description%>
                      <!-- ----------------------------- -->
                </p>
             </div>
@@ -32,7 +31,8 @@
                </li>
             </ul>
          </div>
-         <% if(currentUser.isAdmin==true || currentUser && activity.user.equals(currentUser._id)) {%>
+         <% isAdmin = currentUser.isAdmin %> 
+         <% if(isAdmin==true || currentUser && activity.user.equals(currentUser._id)) {%>
             <div class="card mb-3">
                <div class="card-body">
                   <h4 class="card-text mb-3">Área de Risco</h4>
@@ -52,12 +52,12 @@
       <div class="col-md-6">
          <!-- <h2 class="text-center card-title mb-2">Comentários</h2> -->
          <% if(currentUser) {%>
-            <div class="card mb-3">
+            <div class="card mb-3 bg-light">
                <div class="card-body">
 
                   <h4 class="card-title text-center mb-3">Incluir Comentário
                   </h4>
-                  <form action="/atividades/<%=activity._id%>/reviews" method="POST">
+                  <form action="/atividades/<%=activity._id%>/reviews" method="POST" id="form">
                      <div class="row mb-3">
 
                         <div class="col">
@@ -71,8 +71,10 @@
                      </div>
                      <div class="mb-3">
                         <div><label class="form-label" for="body">Comentário</label></div>
-                        <div><textarea class="form-control" name="review[body]" id="body" cols="42" rows="5"></textarea>
+                        <div>
+                           <textarea class="form-control" name="review[body]" id="body" cols="42" rows="5" hidden></textarea>
                         </div>
+                        <div id="editor"></div>
                      </div>
                      <button class="btn btn-success">Incluir Comentário</button>
                   </form>
@@ -82,7 +84,7 @@
 
                <% const reviews=activity.reviews %>
                   <% for(let review of reviews) { %>
-                     <div class="card mb-3">
+                     <div class="card mb-3 bg-light">
                         <div class="card-body">
                            <h5 class="card-title">
                               <%= review.title %>
@@ -97,12 +99,12 @@
 
                                        <% const lastUpdated=`${day}/${month}/${year}` %>
 
-                                          <p class="text-secondary">
+                                          <p class="text-secondary border-bottom pb-1">
                                              Última Atualização: <%= lastUpdated %>
                                           </p>
-                                          <p>
-                                             <%= review.body %>
-                                          </p>
+                                          <div class="p-3 bg-white rounded-5 mb-3">
+                                             <%- review.body %>
+                                          </div>
                                           <% if(currentUser.isAdmin==true || currentUser &&
                                              review.user.equals(currentUser._id)) {%>
                                              <% if(review.user.equals(currentUser._id)) { %>
@@ -125,5 +127,7 @@
    </div>
    </div>
    <%- include('../partials/foot') %>
-      <script type="text/javascript" src="/public/scripts/functions.js"></script>
-      <script>bootstrapFormValidation()</script>
+
+
+<script>bootstrapFormValidation()</script>
+<script>createQuill('editor','form','body')</script>

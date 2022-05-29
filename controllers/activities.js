@@ -1,9 +1,9 @@
 const Activity = require('../models/activity.js');
 const User = require('../models/user.js');
-const SensiblePeriod = require('../models/sensiblePeriod.js')
+const SensiblePeriod = require('../models/sensiblePeriod.js');
 
 module.exports.showList = async (req, res, next) => {
-   const activities = await Activity.find({}).populate('user');
+   const activities = await Activity.find({}).sort({ title: 'asc' }).populate('user');
    const count = await Activity.countDocuments();
    if (!activities) {
       req.flash('error', 'Atividades não encontradas!')
@@ -24,12 +24,19 @@ module.exports.create = async (req, res, next) => {
       return res.redirect('/atividades')
    }
    const user = await User.findById(req.user._id); //incluído aqui
+   if (req.file) {
+      activity.picture.url = req.file.path;
+   }
+   if (req.file) {
+      activity.picture.fileName = req.file.filename;
+   }
    activity.user = req.user._id;
    user.activities.push(activity); //incluído aqui
    await activity.save();
    await user.save(); //incluído aqui
    req.flash('success', 'Atividade criada com sucesso!')
    res.redirect(`/atividades/${activity._id}`)
+
 }
 
 module.exports.details = async (req, res, next) => {
@@ -38,7 +45,7 @@ module.exports.details = async (req, res, next) => {
       populate: {
          path: 'user'
       }
-   }).populate('user');
+   }).populate('user')
    if (!activity) {
       req.flash('error', 'Atividade não encontrada!')
       return res.redirect('/atividades')
@@ -69,11 +76,19 @@ module.exports.editForm = async (req, res, next) => {
 
 module.exports.editData = async (req, res, next) => {
    const { id } = req.params;
-   const activity = await Activity.findByIdAndUpdate(id, { ...req.body.activity });
+   const activity = await Activity.findById(id);
    if (!activity) {
       req.flash('error', 'Erro ao editar a Atividade!')
       return res.redirect('/atividades')
    }
+   if (req.file) {
+      activity.picture.url = req.file.path;
+   }
+   if (req.file) {
+      activity.picture.fileName = req.file.filename;
+   }
+   await activity.updateOne({ ...req.body.activity });
+   await activity.save()
    req.flash('success', 'Atividade editada com sucesso!')
    res.redirect(`/atividades/${activity._id}`)
 }

@@ -29,7 +29,7 @@
    <div class="row">
 
       <% for(let tool of tools) { %>
-         <% let toolId=tool.title; %>
+         <% let toolId=tool.title.replace(/ /g, '_'); %>
             <div class="col-12 col-md-6 col-lg-4 col-xg-3 mb-3" name="toggleDiv">
                <div class="card">
                   <div class="card-body">
@@ -38,8 +38,8 @@
                            <%=tool.title%>
                         </h4>
                      </div>
-                     <div class="row">
-                        <img src="public/img/<%=tool.picture%>" alt="" class="card-img-top" style="max-height:20rem;">
+                     <div class="row" style="height: 330px;">
+                        <img src="<%=tool.picture.url%>" alt="" class="card-img-top picture p-1" style="max-height:20rem;">
                      </div>
                      <div class="row border-top border-bottom py-2">
                         <div class="mb-1">
@@ -62,7 +62,7 @@
                                  aria-labelledby="<%= `#${toolId}_Heading` %>"
                                  data-bs-parent="<%= `#${toolId}_Accordion` %>">
                                  <div class="accordion-body">
-                                    <%= tool.description %>
+                                    <%- tool.description %>
                                  </div>
                               </div>
                            </div>

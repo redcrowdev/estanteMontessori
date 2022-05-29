@@ -3,7 +3,13 @@
    <div class="row mb-3">
       <div class="col-12 col-md-6">
          <div class="card mb-3">
-            <img src="/public/img/<%=child.picture%>" alt="" class="card-img-top">
+            <% 
+               if(child.picture.url == 'public/img/toy_car.svg'){
+                  child.picture.url = '/public/img/toy_car.svg'
+               }
+            %> 
+
+            <img src="<%=child.picture.url%>" alt="" class="card-img-top picture p-1">
             <div class="card-body">
                <h3 class="card-title">
                   <%=`${child.firstName} ${child.lastName}`%>
@@ -104,11 +110,11 @@
       </div>
       <div class="col-12 col-md-6">
          <% if(currentUser && child.user.equals(currentUser._id)) { %>
-            <div class="card mb-3">
+            <div class="card mb-3 bg-light">
                <div class="card-body">
                   <h4 class="card-title">Incluir Sessão de Estudo
                   </h4>
-                  <form action="/criancas/<%=child._id%>/sessoes" method="POST">
+                  <form action="/criancas/<%=child._id%>/sessoes" method="POST" id="form">
                      <div class="row mb-3">
                         <div class="form-outline mb-3">
                            <div>
@@ -157,7 +163,8 @@
                      <div class="mb-3">
                         <div><label class="form-label" for="body">Observações</label></div>
                         <div><textarea class="form-control" name="session[body]" id="body" cols="42"
-                              rows="5"></textarea>
+                              rows="5" hidden></textarea>
+                              <div id="editor"></div>
                         </div>
                      </div>
                      <button class="btn btn-success">Incluir Sessão</button>
@@ -167,7 +174,7 @@
             <% } %>
                <% const sessions=child.sessions %>
                   <% for(let session of sessions) { %>
-                     <div class="card mb-3">
+                     <div class="card mb-3 bg-light">
                         <div class="card-body">
                            <h5 class="card-title">
                               <%= session.title %>
@@ -191,12 +198,12 @@
                               <%= session.focusArea %>
                            </li>
                            <li class="list-group-item">
-                              <p class="card-text">
+                              <div class="card-text">
                                  <b>Descrição:</b>
-                              </p>
-                              <p class="card-text">
-                                 <%= session.body %>
-                              </p>
+                              </div>
+                              <div class="card-text p-3 bg.white">
+                                 <%- session.body.trim() %>
+                              </div>
                            </li>
                            <% if(currentUser.isAdmin==true || currentUser && child.user.equals(currentUser._id)) {%>
                               <li class="list-group-item">
@@ -222,3 +229,4 @@
    <%- include('../partials/foot') %>
       <script type="text/javascript" src="/public/scripts/functions.js"></script>
       <script>bootstrapFormValidation()</script>
+      <script>createQuill('editor','form','body')</script>

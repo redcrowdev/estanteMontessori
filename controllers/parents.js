@@ -23,6 +23,12 @@ module.exports.create = async (req, res) => {
    }
    const user = await User.findById(req.user._id); //incluído aqui
    parent.user = req.user._id;
+   if (req.file) {
+      parent.picture.url = req.file.path;
+   }
+   if (req.file) {
+      parent.picture.fileName = req.file.filename;
+   }
    user.parents.push(parent); //incluído aqui
    child.parents.push(parent);
    await parent.save();
@@ -56,10 +62,18 @@ module.exports.editForm = async (req, res) => {
 
 module.exports.editData = async (req, res) => {
    const { id, parentId } = req.params;
-   const parent = await Parent.findByIdAndUpdate(parentId, { ...req.body.parent });
+   const parent = await Parent.findById(parentId);
    if (!parent) {
       req.flash('error', 'Responsável não Encontrado!');
    }
+   if (req.file) {
+      parent.picture.url = req.file.path;
+   }
+   if (req.file) {
+      parent.picture.fileName = req.file.filename;
+   }
+   await parent.updateOne({ ...req.body.parent });
+   await parent.save()
    req.flash('success', 'Sessão de Estudo editada com sucesso!')
    res.redirect(`/criancas/${id}`);
 }

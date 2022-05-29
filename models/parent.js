@@ -37,8 +37,13 @@ const ParentSchema = new Schema({
       required: true
    },
    picture: {
-      type: String,
-      default: 'play_time.svg'
+      url: {
+         type: String,
+         default: 'public/img/play_time.svg'
+      },
+      fileName: {
+         type: String
+      }
    },
    user: {
       type: Schema.Types.ObjectId,
